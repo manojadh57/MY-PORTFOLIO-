@@ -1,0 +1,108 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ========= BASE ========= */
+html, body, #root {
+  @apply min-h-screen bg-white text-black m-0 p-0;
+  font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  scroll-behavior: smooth;
+}
+
+/* ========= TYPOGRAPHY ========= */
+.section-title {
+  @apply text-3xl md:text-4xl font-extrabold uppercase tracking-tight;
+}
+
+/* ========= BRUTALIST ELEMENTS (NEUTRAL, NO YELLOW) ========= */
+/* Generic box you can reuse anywhere */
+.box-brutal {
+  @apply border-2 border-black bg-white transition;
+  box-shadow: 6px 6px 0 rgba(0,0,0,0.12);
+}
+.box-brutal:hover {
+  transform: translateY(-2px);
+  box-shadow: 8px 8px 0 rgba(0,0,0,0.18);
+}
+
+/* Skill card (same neutral look) */
+.skill-card {
+  @apply border-2 border-black bg-white px-6 py-8 min-w-[210px] md:min-w-[240px]
+         flex flex-col items-center justify-center text-center transition;
+  box-shadow: 6px 6px 0 rgba(0,0,0,0.12);
+}
+.skill-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 8px 8px 0 rgba(0,0,0,0.18);
+}
+
+/* ========= MARQUEE (single lane, neutral) ========= */
+@keyframes marquee-x {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); } /* we duplicate items once */
+}
+
+.marquee-box {
+  overflow: hidden;
+  position: relative;
+  /* soft edge fade so cards don't “cut” at the sides */
+  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+}
+
+.marquee-track {
+  display: flex;
+  gap: 20px;
+  width: max-content;
+  animation: marquee-x 36s linear infinite; /* slower = calmer */
+}
+
+/* ========= ACCESSIBILITY ========= */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation-duration: 0.01ms; animation-iteration-count: 1; }
+  .box-brutal, .box-brutal:hover,
+  .skill-card, .skill-card:hover {
+    transform: none;
+    box-shadow: 6px 6px 0 rgba(0,0,0,0.12);
+  }
+}
+
+
+/* Display font for the big single-line name */
+@font-face {
+  font-family: 'Bebas Neue';
+  src: url('https://fonts.gstatic.com/s/bebasneue/v9/LYjQw4c8a1b0d3k5e2f6Z7z5Y3s.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}         
+
+
+/* Blinking care qt for the rotating role line */
+@keyframes caretBlink {
+  0%, 45% { box-shadow: inset -2px 0 0 #000; }
+  50%,100% { box-shadow: inset -2px 0 0 transparent; }
+}
+.animate-caret {
+  padding-right: 6px;
+  animation: caretBlink 1s steps(1) infinite;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  50.01%, 100% { opacity: 0; }
+}
+.animate-blink {
+  display: inline-block;
+  width: 1ch;
+  animation: blink 1s step-start infinite;
+}
+
+
+@keyframes bc-bob {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+.batcat-bob { animation: bc-bob 2.6s ease-in-out infinite; }
+
+
+
