@@ -14,9 +14,10 @@ export default function App() {
 
       {/* Sections */}
       <About />
-      <Skills />
+
       <Projects />
       <Experience />
+      <Skills />
       <Education />
       <Contact />
       <Footer />
