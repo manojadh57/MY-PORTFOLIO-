@@ -1,80 +1,18 @@
 // src/components/About.jsx
-import { useEffect, useMemo, useRef, useState } from "react";
-import {
-  SiReact,
-  SiTypescript,
-  SiJavascript,
-  SiNodedotjs,
-  SiExpress,
-  SiMongodb,
-  SiTailwindcss,
-  SiVite,
-  SiRedux,
-  SiDocker,
-  SiGithub,
-} from "react-icons/si";
-import {
-  FiMail,
-  FiDownload,
-  FiClock,
-  FiMapPin,
-  FiArrowLeft,
-  FiArrowRight,
-  FiExternalLink,
-} from "react-icons/fi";
+import { useEffect, useState } from "react";
+import { FiMail, FiDownload, FiMapPin } from "react-icons/fi";
+import ArtisticPortrait from "./ArtisticPortrait";
 
 /* ===================== CONFIG ===================== */
-const AVATAR_SRC = "/manoj-portrait.svg";
 const ROLES = [
-  "Full-Stack Developer",
-  "UI/UX Designer",
-  "MERN Engineer",
-  "Creative Builder",
+  "Full Stack Developer",
+  "MERN Stack Engineer",
+  "React Developer",
+  "Backend Specialist",
 ];
 
-const SKILLS = [
-  { Icon: SiReact, label: "React" },
-  { Icon: SiTypescript, label: "TypeScript" },
-  { Icon: SiJavascript, label: "JavaScript" },
-  { Icon: SiNodedotjs, label: "Node.js" },
-  { Icon: SiExpress, label: "Express" },
-  { Icon: SiMongodb, label: "MongoDB" },
-  { Icon: SiTailwindcss, label: "Tailwind CSS" },
-  { Icon: SiVite, label: "Vite" },
-  { Icon: SiRedux, label: "Redux" },
-  { Icon: SiDocker, label: "Docker" },
-  { Icon: SiGithub, label: "GitHub" },
-];
-
-const FEATURED = [
-  {
-    title: "E-Commerce Website",
-    blurb: "Full MERN stack shop (Stripe, auth, product dashboard).",
-    tags: ["React", "Node", "Stripe"],
-    href: "#projects",
-  },
-  {
-    title: "Library Management System",
-    blurb: "Borrow/return tracking, dashboards, secure auth.",
-    tags: ["React", "Node", "MongoDB"],
-    href: "#projects",
-  },
-  {
-    title: "MovieWorld App",
-    blurb: "Browse & save movies with watchlist and detail pages.",
-    tags: ["React", "TMDB", "Vite"],
-    href: "#projects",
-  },
-];
-
-/* ===================== UTIL ===================== */
-const useReduceMotion = () =>
-  typeof window !== "undefined" &&
-  window.matchMedia &&
-  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-/* ===================== TYPEWRITER (roles) ===================== */
-function Typewriter({ items = ROLES, speed = 80, pause = 900 }) {
+/* ===================== TYPEWRITER ===================== */
+function Typewriter({ items = ROLES, speed = 80, pause = 1200 }) {
   const [i, setI] = useState(0);
   const [text, setText] = useState("");
   const [del, setDel] = useState(false);
@@ -100,360 +38,165 @@ function Typewriter({ items = ROLES, speed = 80, pause = 900 }) {
   }, [text, del, i, items, speed, pause]);
 
   return (
-    <>
-      <style>{`@keyframes caret{0%,45%{opacity:1}50%,100%{opacity:0}}`}</style>
-      <div className="font-mono text-sm md:text-base text-muted">
-        {text}
-        <span
-          className="inline-block w-2 align-middle"
-          style={{ animation: "caret 1s steps(1) infinite" }}
-        >
-          |
-        </span>
-      </div>
-    </>
-  );
-}
-
-/* ===================== POINTER RING ===================== */
-function PointerRing({ items = SKILLS, innerPct = 0.27, outerPct = 0.39 }) {
-  const ref = useRef(null);
-  const [geom, setGeom] = useState({ rInner: 110, rOuter: 160, cx: 0, cy: 0 });
-  const reduce = useReduceMotion();
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const ro = new ResizeObserver(() => {
-      const rect = el.getBoundingClientRect();
-      const s = Math.min(rect.width, rect.height);
-      setGeom({
-        rInner: s * innerPct,
-        rOuter: s * outerPct,
-        cx: rect.width / 2,
-        cy: rect.height / 2,
-      });
-    });
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, [innerPct, outerPct]);
-
-  useEffect(() => {
-    if (reduce) return;
-    const root = document.documentElement;
-    const onMove = (e) => {
-      const x = (e.clientX / window.innerWidth - 0.5) * 2;
-      const y = (e.clientY / window.innerHeight - 0.5) * 2;
-      root.style.setProperty(
-        "--orbitBoost",
-        String(1 + Math.min(0.35, Math.hypot(x, y) * 0.2))
-      );
-    };
-    window.addEventListener("mousemove", onMove, { passive: true });
-    return () => window.removeEventListener("mousemove", onMove);
-  }, [reduce]);
-
-  const slots = useMemo(() => {
-    const step = 360 / items.length;
-    return items.map((it, i) => ({ ...it, deg: i * step }));
-  }, [items.length]);
-
-  return (
-    <>
-      <style>{`
-        @keyframes spin { to { transform: rotate(360deg) } }
-        .orbit { position:absolute; inset:0; pointer-events:none; }
-        .orbit-inner,.orbit-outer{ position:absolute; inset:0; transform-origin:50% 50%;
-          animation: spin calc(var(--dur, 38s) / var(--orbitBoost, 1)) linear infinite; }
-        .orbit-outer{ animation-duration: calc(52s / var(--orbitBoost, 1)); animation-direction: reverse; }
-        .slot{ position:absolute; left:50%; top:50%; transform-origin:center; }
-        .marker{ width:34px; height:34px; display:grid; place-items:center;
-          border:2px solid var(--border); background:var(--card); border-radius:10px;
-          box-shadow:4px_4px_0 var(--shadow-weak);}
-        .marker svg{ width:16px; height:16px }
-        @media (max-width:640px){ .marker{ width:28px; height:28px } .marker svg{ width:14px; height:14px } }
-        @media (prefers-reduced-motion: reduce){ .orbit-inner,.orbit-outer{ animation:none !important } }
-        @keyframes draw{ to{ stroke-dashoffset:0 } }
-      `}</style>
-
-      <div ref={ref} className="absolute inset-0">
-        <svg
-          className="absolute inset-0"
-          width="100%"
-          height="100%"
-          aria-hidden
-        >
-          <defs>
-            <marker
-              id="arrow"
-              viewBox="0 0 6 6"
-              refX="4.5"
-              refY="3"
-              markerWidth="6"
-              markerHeight="6"
-              orient="auto"
-            >
-              <path d="M0,0 L6,3 L0,6 z" fill="currentColor" opacity=".65" />
-            </marker>
-          </defs>
-          <g className="orbit-inner">
-            {slots.map(({ deg }, i) => {
-              const a = (deg - 90) * (Math.PI / 180);
-              const x1 = geom.cx + geom.rInner * Math.cos(a);
-              const y1 = geom.cy + geom.rInner * Math.sin(a);
-              const x2 = geom.cx + geom.rOuter * Math.cos(a);
-              const y2 = geom.cy + geom.rOuter * Math.sin(a);
-              return (
-                <line
-                  key={`in-${i}`}
-                  x1={x1}
-                  y1={y1}
-                  x2={x2}
-                  y2={y2}
-                  stroke="currentColor"
-                  strokeWidth="1.4"
-                  markerEnd="url(#arrow)"
-                  style={{
-                    opacity: 0.45,
-                    strokeDasharray: 110,
-                    strokeDashoffset: 110,
-                    animation: `draw 1.1s ease-out ${i * 0.05}s forwards`,
-                  }}
-                />
-              );
-            })}
-          </g>
-          <g className="orbit-outer">
-            {slots.map(({ deg }, i) => {
-              const a = (deg - 90) * (Math.PI / 180);
-              const x1 = geom.cx + geom.rInner * Math.cos(a) * 1.08;
-              const y1 = geom.cy + geom.rInner * Math.sin(a) * 1.08;
-              const x2 = geom.cx + geom.rOuter * Math.cos(a) * 1.08;
-              const y2 = geom.cy + geom.rOuter * Math.sin(a) * 1.08;
-              return (
-                <line
-                  key={`out-${i}`}
-                  x1={x1}
-                  y1={y1}
-                  x2={x2}
-                  y2={y2}
-                  stroke="currentColor"
-                  strokeWidth="1.1"
-                  markerEnd="url(#arrow)"
-                  style={{
-                    opacity: 0.28,
-                    strokeDasharray: 110,
-                    strokeDashoffset: 110,
-                    animation: `draw 1.1s ease-out ${0.5 + i * 0.05}s forwards`,
-                  }}
-                />
-              );
-            })}
-          </g>
-        </svg>
-
-        <div className="orbit-inner">
-          {slots.map(({ Icon, label, deg }, i) => {
-            const transform = `rotate(${deg}deg) translateX(${
-              geom.rOuter
-            }px) rotate(${-deg}deg)`;
-            return (
-              <div
-                key={`icon-${label}-${i}`}
-                className="slot"
-                style={{ transform }}
-              >
-                <div className="marker" title={label}>
-                  <Icon />
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </>
-  );
-}
-
-/* ===================== RIGHT EXTRAS ===================== */
-function AvailabilityCard() {
-  return (
-    <div className="mt-8 inline-flex items-center gap-4 border-2 border-border bg-card px-4 py-3 shadow-[6px_6px_0_var(--shadow-weak)]">
-      <span className="relative inline-flex h-3 w-3">
-        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-50"></span>
-        <span className="relative inline-flex rounded-full h-3 w-3 bg-accent"></span>
-      </span>
-      <div className="font-mono text-sm leading-tight">
-        <div className="font-bold">
-          Available for full-time & select freelance
-        </div>
-        <div className="mt-0.5 flex gap-3 text-muted">
-          <span className="inline-flex items-center gap-1">
-            <FiMapPin /> Sydney, UTC+10/11
-          </span>
-          <span className="inline-flex items-center gap-1">
-            <FiClock /> ~24h response
-          </span>
-        </div>
-      </div>
+    <div className="font-mono text-lg md:text-xl text-muted font-medium">
+      {text}
+      <span
+        className="inline-block w-0.5 ml-1 bg-accent"
+        style={{
+          height: "1.2em",
+          animation: "caret 1s steps(1) infinite",
+        }}
+      />
     </div>
   );
 }
 
-function FeaturedStrip() {
-  const scroller = useRef(null);
-  const scrollBy = (dir) => {
-    if (!scroller.current) return;
-    const card = scroller.current.querySelector("[data-card]");
-    const w = card ? card.getBoundingClientRect().width : 320;
-    scroller.current.scrollBy({ left: dir * (w + 16), behavior: "smooth" });
-  };
-
-  return (
-    <>
-      <style>{`
-        .snapx { scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch }
-        .snapc { scroll-snap-align: start }
-      `}</style>
-      <div className="mt-6">
-        <div className="flex items-center justify-between mb-2">
-          <h3 className="font-extrabold tracking-tight">Featured work</h3>
-          <div className="flex gap-2">
-            <button
-              onClick={() => scrollBy(-1)}
-              className="btn-brutal px-2 py-1"
-              aria-label="Previous"
-            >
-              <FiArrowLeft />
-            </button>
-            <button
-              onClick={() => scrollBy(1)}
-              className="btn-brutal px-2 py-1"
-              aria-label="Next"
-            >
-              <FiArrowRight />
-            </button>
-          </div>
-        </div>
-        <div
-          ref={scroller}
-          className="snapx overflow-x-auto no-scrollbar flex gap-4 pr-1"
-        >
-          {FEATURED.map((p) => (
-            <a
-              key={p.title}
-              href={p.href}
-              data-card
-              className="snapc min-w-[320px] border-2 border-border bg-card p-4 shadow-[6px_6px_0_var(--shadow-weak)] hover:-translate-y-[2px] transition"
-            >
-              <div className="flex items-start justify-between gap-2">
-                <div className="font-extrabold">{p.title}</div>
-                <FiExternalLink className="opacity-70" />
-              </div>
-              <p className="font-mono text-sm text-muted mt-2">{p.blurb}</p>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {p.tags.map((t) => (
-                  <span
-                    key={t}
-                    className="font-mono text-[11px] border border-border px-2 py-0.5 rounded"
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </a>
-          ))}
-        </div>
-      </div>
-    </>
-  );
-}
-
-/* ===================== MAIN ===================== */
+/* ===================== MAIN ABOUT SECTION ===================== */
 export default function About() {
   return (
     <section
       id="about"
-      className="relative overflow-hidden bg-bg text-fg pt-28 md:pt-36 pb-16"
+      className="relative min-h-screen flex items-center justify-center bg-bg text-fg py-20 overflow-hidden"
     >
-      {/* subtle grid + warm wash */}
+      {/* Subtle Background */}
       <div
         aria-hidden
-        className="absolute inset-0 -z-20"
+        className="absolute inset-0 -z-10 opacity-40"
         style={{
           backgroundImage:
-            "linear-gradient(#00000010 1px, transparent 1px), linear-gradient(90deg, #00000010 1px, transparent 1px)",
-          backgroundSize: "28px 28px",
-        }}
-      />
-      <div
-        aria-hidden
-        className="absolute inset-0 -z-10"
-        style={{
-          background:
-            "radial-gradient(120% 70% at 30% 90%, rgba(255,214,0,0.22) 0%, transparent 55%)",
+            "radial-gradient(circle at 25% 25%, rgba(255,214,0,0.1) 0%, transparent 50%), radial-gradient(circle at 75% 75%, rgba(255,214,0,0.08) 0%, transparent 50%)",
         }}
       />
 
-      <div className="relative mx-auto w-[min(1200px,94vw)]">
-        <div className="grid grid-cols-12 gap-12 md:gap-10 items-start">
-          {/* LEFT — portrait stage */}
-          <div className="col-span-12 md:col-span-5">
-            <div className="relative w-[min(520px,88vw)] aspect-square">
-              <PointerRing />
-              <img
-                src={AVATAR_SRC}
-                alt="Manoj Adhikari"
-                className="absolute inset-0 m-auto max-w-[74%] md:max-w-[78%] h-auto drop-shadow-[0_16px_34px_rgba(0,0,0,0.18)]"
-                style={{
-                  background: "transparent",
-                  objectFit: "contain",
-                  animation: "float 6s ease-in-out infinite",
-                }}
-                loading="eager"
-              />
-            </div>
+      <div className="relative mx-auto w-[min(1100px,92vw)]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          {/* LEFT — Artistic Portrait */}
+          <div className="flex justify-center lg:justify-start">
+            <ArtisticPortrait
+              className="w-full max-w-md"
+              enableGlitch={true}
+              enableCodeRain={true}
+              enablePixelTrail={true}
+              enableScanlines={true}
+            />
           </div>
 
-          {/* RIGHT — name box + roles + details + CTAs + new extras */}
-          <div className="col-span-12 md:col-span-7">
-            {/* name box */}
-            <div className="inline-block border-2 border-border bg-card px-5 py-3 shadow-[8px_8px_0_var(--shadow-weak)]">
-              <div
-                className="text-[clamp(26px,5.2vw,48px)] leading-none font-black tracking-wide"
-                style={{ fontFamily: "'Bebas Neue', sans-serif" }}
+          {/* RIGHT — Minimal Content */}
+          <div className="space-y-6">
+            {/* Name with Cool Font */}
+            <div>
+              <h1
+                className="text-5xl md:text-6xl lg:text-7xl font-black tracking-tight leading-none mb-2"
+                style={{
+                  fontFamily: "'Space Grotesk', 'Bebas Neue', sans-serif",
+                  background:
+                    "linear-gradient(135deg, #111 0%, #111 60%, #FFD600 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}
               >
-                Manoj <span className="text-accent">Adhikari</span>
-              </div>
+                MANOJ
+              </h1>
+              <h2
+                className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-none text-accent mb-4"
+                style={{
+                  fontFamily: "'Space Grotesk', 'Bebas Neue', sans-serif",
+                }}
+              >
+                ADHIKARI
+              </h2>
               <Typewriter />
             </div>
 
-            {/* details */}
-            <p className="mt-6 font-mono text-lg md:text-xl leading-relaxed max-w-[62ch]">
-              A dedicated <strong>Full Stack Developer</strong> skilled in
-              crafting web applications using
-              <strong> JavaScript</strong>, <strong>React.js</strong>,{" "}
-              <strong>Node.js</strong>, and
-              <strong> Express</strong>, complemented by proficiency in various
-              modern libraries and frameworks.
-            </p>
+            {/* Compact Bio */}
+            <div className="border-2 border-border bg-card p-6 shadow-[8px_8px_0_var(--shadow-weak)]">
+              <p className="font-mono text-base leading-relaxed mb-4">
+                <strong>2+ years</strong> building scalable web applications
+                with the <strong>MERN stack</strong>. Based in Sydney, I create
+                pixel-perfect UIs and robust backend systems.
+              </p>
 
-            {/* CTAs */}
-            <div className="mt-7 flex flex-wrap gap-4">
-              <a href="#projects" className="btn-brutal btn-accent">
-                View Projects
+              {/* What I Bring - Compact */}
+              <div className="border-l-4 border-accent pl-4">
+                <h3 className="font-bold text-sm mb-2 uppercase tracking-wide">
+                  What I Bring
+                </h3>
+                <ul className="text-sm space-y-1">
+                  <li>
+                    • <strong>Full Stack:</strong> React, Node.js, MongoDB,
+                    Express
+                  </li>
+                  <li>
+                    • <strong>Production Ready:</strong> CI/CD, Docker, Agile
+                    workflows
+                  </li>
+                  <li>
+                    • <strong>Team Player:</strong> Cross-functional
+                    collaboration
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Compact Stats */}
+            <div className="grid grid-cols-3 gap-4">
+              <div className="border-2 border-border bg-card p-4 text-center shadow-[6px_6px_0_var(--shadow-weak)]">
+                <div className="text-2xl font-black text-accent">2+</div>
+                <div className="text-xs font-mono font-bold">Years</div>
+              </div>
+              <div className="border-2 border-border bg-card p-4 text-center shadow-[6px_6px_0_var(--shadow-weak)]">
+                <div className="text-2xl font-black text-accent">15+</div>
+                <div className="text-xs font-mono font-bold">Projects</div>
+              </div>
+              <div className="border-2 border-border bg-card p-4 text-center shadow-[6px_6px_0_var(--shadow-weak)]">
+                <div className="text-2xl font-black text-accent">24h</div>
+                <div className="text-xs font-mono font-bold">Response</div>
+              </div>
+            </div>
+
+            {/* Actions + Status */}
+            <div className="flex flex-wrap items-center gap-4">
+              <a
+                href="#projects"
+                className="bg-accent border-2 border-black px-6 py-3 font-bold shadow-[6px_6px_0_rgba(0,0,0,0.3)] hover:-translate-y-1 transition"
+              >
+                View Work
               </a>
-              <a href="/resume.pdf" download className="btn-brutal">
-                <FiDownload /> Download Resume
+
+              <a
+                href="/resume.pdf"
+                download
+                className="bg-card border-2 border-border px-6 py-3 font-bold shadow-[6px_6px_0_var(--shadow-weak)] hover:-translate-y-1 transition inline-flex items-center gap-2"
+              >
+                <FiDownload className="w-4 h-4" /> Resume
               </a>
-              <a href="#contact" className="btn-brutal">
-                <FiMail /> Contact Me
+
+              <a
+                href="#contact"
+                className="bg-card border-2 border-border px-6 py-3 font-bold shadow-[6px_6px_0_var(--shadow-weak)] hover:-translate-y-1 transition inline-flex items-center gap-2"
+              >
+                <FiMail className="w-4 h-4" /> Contact
               </a>
             </div>
 
-            {/* NEW: right-down filler */}
-            <AvailabilityCard />
-            <FeaturedStrip />
+            {/* Current Status - Small Box */}
+            <div className="bg-green-50 border-2 border-green-500 p-4 shadow-[4px_4px_0_rgba(34,197,94,0.2)]">
+              <div className="flex items-center gap-2 mb-1">
+                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <span className="font-mono text-sm font-bold text-green-800">
+                  Currently seeking
+                </span>
+              </div>
+              <p className="text-sm text-green-700 leading-tight">
+                Full-time React/Node.js opportunities. Available immediately for
+                remote & hybrid roles in Sydney.
+              </p>
+              <div className="flex items-center gap-1 mt-2 text-xs text-green-600">
+                <FiMapPin className="w-3 h-3" />
+                Sydney, Australia • UTC+10/11
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -461,11 +204,17 @@ export default function About() {
   );
 }
 
-/* ===== float keyframes (scoped once) ===== */
+/* Animations */
 const style =
   typeof document !== "undefined" ? document.createElement("style") : null;
-if (style && !document.getElementById("about-float")) {
-  style.id = "about-float";
-  style.innerHTML = `@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}`;
+if (style && !document.getElementById("about-minimal")) {
+  style.id = "about-minimal";
+  style.innerHTML = `
+    @keyframes caret {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700@display=swap');
+  `;
   document.head.appendChild(style);
 }
