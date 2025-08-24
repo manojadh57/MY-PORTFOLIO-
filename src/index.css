@@ -2,10 +2,69 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ========= THEME TOKENS (CSS Variables) ========= */
+/* Default: Swiss/Neutral */
+:root {
+  --bg: #ffffff;
+  --fg: #111111;
+  --border: #111111;
+  --card: #ffffff;
+  --accent: #ffd600;
+  --muted: #757575;
+
+  --shadow-weak: rgba(0,0,0,0.12);
+  --shadow-strong: rgba(0,0,0,0.18);
+
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --font-display: "Space Grotesk", var(--font-sans);
+}
+
+/* Brutalist (Dark) */
+[data-theme="brutalist-dark"] {
+  --bg: #0a0a0a;
+  --fg: #f5f5f5;
+  --border: #000000;
+  --card: #111111;
+  --accent: #ffd600;
+  --muted: #aaaaaa;
+
+  --shadow-weak: rgba(0,0,0,0.5);
+  --shadow-strong: rgba(0,0,0,0.6);
+}
+
+/* Noir */
+[data-theme="noir"] {
+  --bg: #0b0e14;
+  --fg: #e6edf3;
+  --border: #1f2328;
+  --card: #111826;
+  --accent: #8b5cf6;
+  --muted: #9aa6b2;
+
+  --shadow-weak: rgba(16, 20, 27, 0.45);
+  --shadow-strong: rgba(16, 20, 27, 0.6);
+}
+
+/* Ghibli Pastel */
+[data-theme="ghibli"] {
+  --bg: #fbf6ee;
+  --fg: #2b2b2b;
+  --border: #2b2b2b;
+  --card: #fffaf1;
+  --accent: #5aa382;
+  --muted: #6b7280;
+
+  --shadow-weak: rgba(43, 43, 43, 0.12);
+  --shadow-strong: rgba(43, 43, 43, 0.18);
+}
+
 /* ========= BASE ========= */
 html, body, #root {
-  @apply min-h-screen bg-white text-black m-0 p-0;
-  font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  /* remove bg-bg so the art can be seen */
+  @apply min-h-screen text-fg m-0 p-0;
+  background: transparent;                  /* << key change */
+  font-family: var(--font-mono);
   scroll-behavior: smooth;
 }
 
@@ -14,47 +73,51 @@ html, body, #root {
   @apply text-3xl md:text-4xl font-extrabold uppercase tracking-tight;
 }
 
-/* ========= BRUTALIST ELEMENTS (NEUTRAL, NO YELLOW) ========= */
-/* Generic box you can reuse anywhere */
+/* ========= BRUTALIST ELEMENTS (theme-aware) ========= */
 .box-brutal {
-  @apply border-2 border-black bg-white transition;
-  box-shadow: 6px 6px 0 rgba(0,0,0,0.12);
+  @apply border-2 border-border bg-card transition;
+  box-shadow: 6px 6px 0 var(--shadow-weak);
 }
 .box-brutal:hover {
   transform: translateY(-2px);
-  box-shadow: 8px 8px 0 rgba(0,0,0,0.18);
+  box-shadow: 8px 8px 0 var(--shadow-strong);
 }
 
-/* Skill card (same neutral look) */
+/* Skill card */
 .skill-card {
-  @apply border-2 border-black bg-white px-6 py-8 min-w-[210px] md:min-w-[240px]
+  @apply border-2 border-border bg-card px-6 py-8 min-w-[210px] md:min-w-[240px]
          flex flex-col items-center justify-center text-center transition;
-  box-shadow: 6px 6px 0 rgba(0,0,0,0.12);
+  box-shadow: 6px 6px 0 var(--shadow-weak);
 }
 .skill-card:hover {
   transform: translateY(-2px);
-  box-shadow: 8px 8px 0 rgba(0,0,0,0.18);
+  box-shadow: 8px 8px 0 var(--shadow-strong);
 }
 
-/* ========= MARQUEE (single lane, neutral) ========= */
+/* Buttons (utility helpers) */
+.btn-brutal {
+  @apply inline-flex items-center gap-2 border-2 border-border px-4 py-2 bg-card transition;
+  box-shadow: 4px 4px 0 var(--shadow-weak);
+}
+.btn-brutal:hover { transform: translate(-1px, -1px); box-shadow: 6px 6px 0 var(--shadow-strong); }
+.btn-accent { @apply bg-accent text-fg; }
+
+/* ========= MARQUEE ========= */
 @keyframes marquee-x {
   from { transform: translateX(0); }
-  to   { transform: translateX(-50%); } /* we duplicate items once */
+  to   { transform: translateX(-50%); }
 }
-
 .marquee-box {
   overflow: hidden;
   position: relative;
-  /* soft edge fade so cards don't “cut” at the sides */
   mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
   -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
 }
-
 .marquee-track {
   display: flex;
   gap: 20px;
   width: max-content;
-  animation: marquee-x 36s linear infinite; /* slower = calmer */
+  animation: marquee-x 36s linear infinite;
 }
 
 /* ========= ACCESSIBILITY ========= */
@@ -63,10 +126,9 @@ html, body, #root {
   .box-brutal, .box-brutal:hover,
   .skill-card, .skill-card:hover {
     transform: none;
-    box-shadow: 6px 6px 0 rgba(0,0,0,0.12);
+    box-shadow: 6px 6px 0 var(--shadow-weak);
   }
 }
-
 
 /* Display font for the big single-line name */
 @font-face {
@@ -74,12 +136,11 @@ html, body, #root {
   src: url('https://fonts.gstatic.com/s/bebasneue/v9/LYjQw4c8a1b0d3k5e2f6Z7z5Y3s.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
-}         
+}
 
-
-/* Blinking care qt for the rotating role line */
+/* Blinking caret for role line (if you use it anywhere) */
 @keyframes caretBlink {
-  0%, 45% { box-shadow: inset -2px 0 0 #000; }
+  0%, 45% { box-shadow: inset -2px 0 0 var(--fg); }
   50%,100% { box-shadow: inset -2px 0 0 transparent; }
 }
 .animate-caret {
@@ -91,18 +152,10 @@ html, body, #root {
   0%, 50% { opacity: 1; }
   50.01%, 100% { opacity: 0; }
 }
-.animate-blink {
-  display: inline-block;
-  width: 1ch;
-  animation: blink 1s step-start infinite;
-}
+.animate-blink { display: inline-block; width: 1ch; animation: blink 1s step-start infinite; }
 
-
-@keyframes bc-bob {
-  0%,100% { transform: translateY(0); }
-  50% { transform: translateY(-2px); }
-}
+@keyframes bc-bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
 .batcat-bob { animation: bc-bob 2.6s ease-in-out infinite; }
 
-
-
+/* Subtle accessible focus */
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }

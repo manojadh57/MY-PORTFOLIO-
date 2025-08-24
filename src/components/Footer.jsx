@@ -18,11 +18,13 @@ export default function Footer() {
   }).format(now);
 
   return (
-    <footer className="sticky bottom-0 z-40">
+    // 👇 not sticky anymore
+    <footer className="relative mt-16" role="contentinfo">
       <div className="mx-auto max-w-6xl px-4">
-        <div className="mt-14 mb-2 h-1 bg-black/80" />
+        <div className="mb-2 h-1 bg-black/80" />
       </div>
-      <div className="mx-auto max-w-6xl my-3 px-4 py-2 border-2 border-black bg-yellow-400 shadow-[6px_6px_0_#00000040] flex items-center justify-between">
+
+      <div className="mx-auto max-w-6xl my-3 px-4 py-2 border-2 border-black bg-yellow-400 shadow-[6px_6px_0_#00000040] flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2 font-mono text-sm font-bold">
           <BatCatMark size={22} />
           <span>
@@ -32,6 +34,7 @@ export default function Footer() {
         </div>
         <div className="font-mono text-sm">{ts}</div>
       </div>
+
       <div className="mx-auto max-w-6xl px-4 pb-6">
         <p className="text-[12px] font-mono opacity-60">
           BatCat mark inspired by Mark Horn.
