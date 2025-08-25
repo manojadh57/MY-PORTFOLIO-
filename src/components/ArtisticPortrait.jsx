@@ -4,36 +4,72 @@ import { useEffect, useRef, useState } from "react";
 const GLITCH_CHARS = "▓▒░█▄▀■▪▫";
 const PIXEL_COLORS = ["#FFD600", "#111111", "#757575", "#FFFFFF"];
 
-// Code rain characters (tech stack related)
-const CODE_CHARS = [
-  "React",
-  "Node",
-  "JS",
-  "CSS",
-  "HTML",
-  "MongoDB",
-  "Express",
+// Matrix-style binary and code characters
+const MATRIX_CHARS = [
+  "0",
+  "0",
+  "0",
+  "0",
+  "0",
+  "1",
+  "1",
+  "1",
+  "1",
+  "1", // Heavy emphasis on 0s and 1s
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "A",
+  "B",
+  "C",
+  "D",
+  "E",
+  "F",
+  "ア",
+  "イ",
+  "ウ",
+  "エ",
+  "オ",
+  "カ",
+  "キ",
+  "ク",
+  "ケ",
+  "コ",
   "{",
   "}",
   "[",
   "]",
   "(",
   ")",
-  ";",
   "=",
   "+",
   "-",
   "*",
   "/",
-  "0",
-  "1",
-  "→",
-  "←",
-  "↑",
-  "↓",
-  "λ",
-  "∆",
-  "∞",
+  "|",
+];
+
+// Name characters for glitch effect
+const NAME_CHARS = [
+  "M",
+  "A",
+  "N",
+  "O",
+  "J",
+  " ",
+  "A",
+  "D",
+  "H",
+  "I",
+  "K",
+  "A",
+  "R",
+  "I",
 ];
 
 function useMousePosition() {
@@ -51,7 +87,7 @@ function useMousePosition() {
   return position;
 }
 
-function CodeRain({ containerRef }) {
+function MatrixCodeRain({ containerRef }) {
   const canvasRef = useRef(null);
   const dropsRef = useRef([]);
   const frameRef = useRef();
@@ -62,57 +98,105 @@ function CodeRain({ containerRef }) {
     if (!canvas || !container) return;
 
     const ctx = canvas.getContext("2d");
-    const rect = container.getBoundingClientRect();
+    let rect = container.getBoundingClientRect();
 
-    canvas.width = rect.width;
-    canvas.height = rect.height;
+    const updateCanvas = () => {
+      rect = container.getBoundingClientRect();
+      canvas.width = rect.width;
+      canvas.height = rect.height;
+    };
 
-    const columns = Math.floor(canvas.width / 20);
+    updateCanvas();
+
+    const fontSize = 16;
+    const columns = Math.floor(canvas.width / fontSize);
     const drops = dropsRef.current;
 
     // Initialize drops
-    for (let i = 0; i < columns; i++) {
-      if (!drops[i]) {
+    if (drops.length === 0) {
+      for (let i = 0; i < columns; i++) {
         drops[i] = {
           y: Math.random() * canvas.height,
-          speed: Math.random() * 2 + 1,
-          char: CODE_CHARS[Math.floor(Math.random() * CODE_CHARS.length)],
-          opacity: Math.random() * 0.8 + 0.2,
+          speed: Math.random() * 4 + 2,
+          chars: Array.from(
+            { length: Math.floor(Math.random() * 30) + 10 },
+            () => MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)]
+          ),
+          opacity: Math.random() * 0.8 + 0.4,
+          length: Math.floor(Math.random() * 20) + 10,
+          lastCharChange: 0,
         };
       }
     }
 
     function draw() {
-      ctx.fillStyle = "rgba(255, 255, 255, 0.08)";
+      // Dark background with slight transparency for trail effect
+      ctx.fillStyle = "rgba(0, 0, 0, 0.08)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      ctx.font = '12px "IBM Plex Mono", monospace';
+      ctx.font = `bold ${fontSize}px "Courier New", monospace`;
+      ctx.textAlign = "center";
 
       for (let i = 0; i < drops.length; i++) {
         const drop = drops[i];
 
-        // Randomize color
-        const colors = ["#FFD600", "#111111", "#757575"];
-        ctx.fillStyle =
-          colors[Math.floor(Math.random() * colors.length)] +
-          Math.floor(drop.opacity * 255)
-            .toString(16)
-            .padStart(2, "0");
+        // Draw the trail of characters
+        for (let k = 0; k < drop.length; k++) {
+          const charY = drop.y - k * fontSize;
 
-        ctx.fillText(drop.char, i * 20, drop.y);
+          if (charY > -fontSize && charY < canvas.height + fontSize) {
+            // Calculate brightness - brightest at head
+            const brightness = Math.max(0, (drop.length - k) / drop.length);
 
+            if (k === 0) {
+              // Head character - bright white
+              ctx.fillStyle = `rgba(255, 255, 255, ${brightness})`;
+            } else if (k < 3) {
+              // First few characters - bright green
+              ctx.fillStyle = `rgba(100, 255, 100, ${brightness * 0.9})`;
+            } else {
+              // Trail - darker green
+              ctx.fillStyle = `rgba(0, 255, 65, ${brightness * 0.7})`;
+            }
+
+            // Change characters occasionally for animation
+            if (Date.now() - drop.lastCharChange > 150 && Math.random() < 0.3) {
+              drop.chars[k] =
+                MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)];
+              if (k === drop.length - 1) drop.lastCharChange = Date.now();
+            }
+
+            ctx.fillText(
+              drop.chars[k] || "0",
+              i * fontSize + fontSize / 2,
+              charY
+            );
+          }
+        }
+
+        // Move the drop
         drop.y += drop.speed;
 
-        // Reset drop when it goes off screen
-        if (drop.y > canvas.height && Math.random() > 0.975) {
-          drop.y = 0;
-          drop.char = CODE_CHARS[Math.floor(Math.random() * CODE_CHARS.length)];
-          drop.opacity = Math.random() * 0.8 + 0.2;
+        // Reset when off screen
+        if (drop.y - drop.length * fontSize > canvas.height) {
+          drop.y = -Math.random() * 200;
+          drop.speed = Math.random() * 4 + 2;
+          drop.chars = Array.from(
+            { length: Math.floor(Math.random() * 30) + 10 },
+            () => MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)]
+          );
+          drop.opacity = Math.random() * 0.8 + 0.4;
+          drop.length = Math.floor(Math.random() * 20) + 10;
         }
       }
 
       frameRef.current = requestAnimationFrame(draw);
     }
+
+    const resizeObserver = new ResizeObserver(() => {
+      updateCanvas();
+    });
+    resizeObserver.observe(container);
 
     draw();
 
@@ -120,15 +204,97 @@ function CodeRain({ containerRef }) {
       if (frameRef.current) {
         cancelAnimationFrame(frameRef.current);
       }
+      resizeObserver.disconnect();
     };
   }, [containerRef]);
 
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 pointer-events-none opacity-30"
-      style={{ mixBlendMode: "multiply" }}
+      className="absolute inset-0 pointer-events-none opacity-70"
+      style={{
+        mixBlendMode: "normal",
+        background: "transparent",
+      }}
     />
+  );
+}
+
+function FloatingName({ isActive }) {
+  const [namePositions, setNamePositions] = useState([]);
+
+  useEffect(() => {
+    // Initialize positions for each character
+    const positions = NAME_CHARS.map((char, index) => ({
+      char,
+      x: 20 + index * 25 + Math.random() * 10,
+      y: 60 + Math.random() * 20,
+      opacity: Math.random() * 0.6 + 0.2,
+      glitchIntensity: Math.random(),
+      id: index,
+    }));
+    setNamePositions(positions);
+  }, []);
+
+  useEffect(() => {
+    if (!isActive) return;
+
+    const interval = setInterval(() => {
+      setNamePositions((prev) =>
+        prev.map((pos) => ({
+          ...pos,
+          x: pos.x + (Math.random() - 0.5) * 4,
+          y: pos.y + (Math.random() - 0.5) * 4,
+          opacity: Math.random() * 0.8 + 0.2,
+          glitchIntensity: Math.random(),
+        }))
+      );
+    }, 200);
+
+    return () => clearInterval(interval);
+  }, [isActive]);
+
+  return (
+    <div className="absolute inset-0 pointer-events-none">
+      {namePositions.map((pos) => (
+        <div
+          key={pos.id}
+          className="absolute text-green-400 font-mono font-bold text-lg"
+          style={{
+            left: `${pos.x}%`,
+            top: `${pos.y}%`,
+            opacity: pos.opacity,
+            transform: `skew(${pos.glitchIntensity * 10 - 5}deg) scale(${
+              0.8 + pos.glitchIntensity * 0.4
+            })`,
+            textShadow: `0 0 ${pos.glitchIntensity * 10}px #00ff41`,
+            filter: `blur(${pos.glitchIntensity * 2}px)`,
+            animation: isActive
+              ? `glitch-float-${pos.id} 0.5s linear infinite`
+              : "none",
+          }}
+        >
+          {Math.random() < 0.1
+            ? GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)]
+            : pos.char}
+        </div>
+      ))}
+
+      <style jsx>{`
+        ${namePositions
+          .map(
+            (pos) => `
+          @keyframes glitch-float-${pos.id} {
+            0%, 100% { transform: translateX(0) translateY(0) skew(0deg); }
+            25% { transform: translateX(-1px) translateY(-1px) skew(-1deg); }
+            50% { transform: translateX(1px) translateY(1px) skew(1deg); }
+            75% { transform: translateX(-1px) translateY(1px) skew(-0.5deg); }
+          }
+        `
+          )
+          .join("")}
+      `}</style>
+    </div>
   );
 }
 
@@ -146,7 +312,10 @@ function GlitchOverlay({ isActive, intensity = 5 }) {
         width: Math.random() * 30 + 10,
         height: Math.random() * 5 + 2,
         char: GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)],
-        color: PIXEL_COLORS[Math.floor(Math.random() * PIXEL_COLORS.length)],
+        color:
+          Math.random() < 0.7
+            ? "#00ff41"
+            : PIXEL_COLORS[Math.floor(Math.random() * PIXEL_COLORS.length)],
         opacity: Math.random() * 0.8 + 0.2,
       }));
 
@@ -221,7 +390,10 @@ function PixelTrail({ mousePosition, containerRef }) {
       x: relativeX,
       y: relativeY,
       size: Math.random() * 8 + 4,
-      color: PIXEL_COLORS[Math.floor(Math.random() * PIXEL_COLORS.length)],
+      color:
+        Math.random() < 0.7
+          ? "#00ff41"
+          : PIXEL_COLORS[Math.floor(Math.random() * PIXEL_COLORS.length)],
       life: 1,
     };
 
@@ -245,7 +417,7 @@ function PixelTrail({ mousePosition, containerRef }) {
       {trail.map((pixel) => (
         <div
           key={pixel.id}
-          className="absolute border-2 border-black"
+          className="absolute border border-green-400"
           style={{
             left: pixel.x - pixel.size / 2,
             top: pixel.y - pixel.size / 2,
@@ -254,7 +426,7 @@ function PixelTrail({ mousePosition, containerRef }) {
             backgroundColor: pixel.color,
             opacity: pixel.life * 0.7,
             transform: `scale(${pixel.life})`,
-            boxShadow: `2px 2px 0 rgba(0,0,0,${pixel.life * 0.3})`,
+            boxShadow: `0 0 ${pixel.life * 10}px ${pixel.color}`,
           }}
         />
       ))}
@@ -265,10 +437,10 @@ function PixelTrail({ mousePosition, containerRef }) {
 function ScanLines() {
   return (
     <div
-      className="absolute inset-0 pointer-events-none opacity-20"
+      className="absolute inset-0 pointer-events-none opacity-10"
       style={{
         backgroundImage:
-          "linear-gradient(transparent 50%, rgba(0,0,0,0.1) 50%)",
+          "linear-gradient(transparent 50%, rgba(0,255,65,0.1) 50%)",
         backgroundSize: "100% 4px",
         animation: "scanlines 2s linear infinite",
       }}
@@ -316,7 +488,7 @@ export default function ArtisticPortrait({
   return (
     <div
       ref={containerRef}
-      className={`relative w-full max-w-md mx-auto aspect-square overflow-hidden border-2 border-black bg-white shadow-[8px_8px_0_var(--shadow-weak)] ${className}`}
+      className={`relative w-full max-w-md mx-auto aspect-square overflow-hidden border-2 border-black bg-black shadow-[8px_8px_0_var(--shadow-weak)] ${className}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       style={{
@@ -324,28 +496,22 @@ export default function ArtisticPortrait({
         transition: "filter 0.1s ease",
       }}
     >
-      {/* Background Pattern */}
-      <div
-        className="absolute inset-0 opacity-5"
-        style={{
-          backgroundImage:
-            "linear-gradient(45deg, #111 25%, transparent 25%), linear-gradient(-45deg, #111 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #111 75%), linear-gradient(-45deg, transparent 75%, #111 75%)",
-          backgroundSize: "20px 20px",
-          backgroundPosition: "0 0, 0 10px, 10px -10px, -10px 0px",
-        }}
-      />
+      {/* Matrix Code Rain Effect */}
+      {enableCodeRain && <MatrixCodeRain containerRef={containerRef} />}
 
-      {/* Code Rain Effect */}
-      {enableCodeRain && <CodeRain containerRef={containerRef} />}
+      {/* Floating Name with Glitch */}
+      <FloatingName isActive={isGlitching || isHovered} />
 
-      {/* Portrait Image */}
+      {/* Portrait Image - Keep original colors */}
       <div className="relative z-10 w-full h-full flex items-center justify-center p-8">
         <img
           src="/manoj-portrait.svg"
           alt="Manoj Adhikari - Artistic Portrait"
-          className="w-full h-full object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.3)]"
+          className="w-full h-full object-contain drop-shadow-[0_8px_16px_rgba(0,0,0,0.5)]"
           style={{
-            filter: isHovered ? "brightness(1.1) contrast(1.1)" : "none",
+            filter: isHovered
+              ? "brightness(1.1) contrast(1.1)"
+              : "brightness(1.0)",
             transform: isGlitching
               ? `translateX(${Math.random() * 4 - 2}px) translateY(${
                   Math.random() * 4 - 2
@@ -372,24 +538,24 @@ export default function ArtisticPortrait({
       {/* Scanlines */}
       {enableScanlines && <ScanLines />}
 
-      {/* Corner Brackets (Brutalist accent) */}
-      <div className="absolute top-2 left-2 w-6 h-6 border-l-4 border-t-4 border-accent" />
-      <div className="absolute top-2 right-2 w-6 h-6 border-r-4 border-t-4 border-accent" />
-      <div className="absolute bottom-2 left-2 w-6 h-6 border-l-4 border-b-4 border-accent" />
-      <div className="absolute bottom-2 right-2 w-6 h-6 border-r-4 border-b-4 border-accent" />
+      {/* Corner Brackets (Matrix-themed) */}
+      <div className="absolute top-2 left-2 w-6 h-6 border-l-4 border-t-4 border-green-400" />
+      <div className="absolute top-2 right-2 w-6 h-6 border-r-4 border-t-4 border-green-400" />
+      <div className="absolute bottom-2 left-2 w-6 h-6 border-l-4 border-b-4 border-green-400" />
+      <div className="absolute bottom-2 right-2 w-6 h-6 border-r-4 border-b-4 border-green-400" />
 
-      {/* Status Indicator */}
-      <div className="absolute top-4 right-4 flex items-center gap-2 px-2 py-1 bg-accent border-2 border-black text-black text-xs font-mono font-bold">
+      {/* Status Indicator - Matrix themed */}
+      <div className="absolute top-4 right-4 flex items-center gap-2 px-2 py-1 bg-black border-2 border-green-400 text-green-400 text-xs font-mono font-bold">
         <div
           className={`w-2 h-2 ${
             isGlitching
-              ? "bg-red-500"
+              ? "bg-red-500 shadow-[0_0_6px_#ff0000]"
               : isHovered
-              ? "bg-green-500"
-              : "bg-gray-400"
-          } border border-black`}
+              ? "bg-green-400 shadow-[0_0_6px_#00ff41]"
+              : "bg-green-700 shadow-[0_0_4px_#00ff41]"
+          } border border-green-400`}
         />
-        {isGlitching ? "GLITCH" : isHovered ? "ACTIVE" : "IDLE"}
+        {isGlitching ? "BREACH" : isHovered ? "ONLINE" : "MATRIX"}
       </div>
     </div>
   );
