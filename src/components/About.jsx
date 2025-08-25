@@ -1,9 +1,10 @@
+// About.jsx
 import { useEffect, useMemo, useState } from "react";
-import { motion } from "framer-motion";
 import { Mail, ArrowRight } from "lucide-react";
 import ArtisticPortrait from "./ArtisticPortrait";
+import HelloRotator from "./HelloRotator";
 
-// super-minimal typewriter
+// Minimal typewriter for the subtitle
 function Typewriter({
   phrases,
   typingSpeed = 55,
@@ -13,12 +14,14 @@ function Typewriter({
   const list = useMemo(() => phrases.filter(Boolean), [phrases]);
   const [i, setI] = useState(0);
   const [txt, setTxt] = useState("");
-  const [dir, setDir] = useState(1);
+  const [dir, setDir] = useState(1); // 1 typing, -1 deleting
+
   useEffect(() => {
     if (!list.length) return;
     const full = list[i % list.length];
     const done = dir === 1 && txt === full;
     const empty = dir === -1 && txt === "";
+
     const t = setTimeout(
       () => {
         if (done) return setDir(-1);
@@ -31,8 +34,10 @@ function Typewriter({
       },
       done ? pause : typingSpeed
     );
+
     return () => clearTimeout(t);
   }, [txt, dir, i, list, typingSpeed, pause]);
+
   return (
     <span className={className} aria-live="polite" aria-atomic>
       {txt}
@@ -42,16 +47,14 @@ function Typewriter({
 }
 
 export default function About() {
-  const roles = ["Full‑Stack Developer", "React • Node.js", "Simple, Reliable"];
+  const roles = ["Full-Stack Developer", "React • Node.js", "Simple, Reliable"];
   const card = "bg-white border-2 border-black shadow-[6px_6px_0_#000]";
 
   return (
     <section
       id="about"
-      className="relative mx-auto max-w-6xl px-4 sm:px-6 pt-32 pb-10 md:min-h-[80vh] scroll-mt-32"
+      className="relative mx-auto max-w-6xl px-4 sm:px-6 pt-32 sm:pt-36 pb-10 md:min-h-[80vh] scroll-mt-32"
     >
-      {/* base-line accent */}
-
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10 items-center">
         {/* LEFT: portrait + availability */}
         <aside className="md:col-span-5">
@@ -59,6 +62,8 @@ export default function About() {
             <div className="rounded-xl overflow-hidden">
               <ArtisticPortrait className="w-full h-auto" />
             </div>
+
+            {/* Availability pill (green) */}
             <div className="mt-3 inline-flex items-center gap-2 rounded-xl border-2 border-black bg-green-200 px-3 py-2 shadow-[4px_4px_0_#000]">
               <span className="relative inline-block h-2.5 w-2.5">
                 <span className="absolute inset-0 rounded-full bg-green-600" />
@@ -70,18 +75,23 @@ export default function About() {
           </div>
         </aside>
 
-        {/* RIGHT: content (brutalist + minimal) */}
+        {/* RIGHT: content */}
         <main className="md:col-span-7">
+          {/* Multilingual hello banner */}
+          <HelloRotator name="Manoj Adhikari" />
+
           <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight font-mono leading-none">
             Manoj Adhikari
           </h2>
+
           <p className="mt-2 text-xl font-mono">
             <Typewriter phrases={roles} />
           </p>
 
+          {/* Main blurb with highlighted key terms */}
           <p className="mt-5 text-[1.05rem] leading-relaxed max-w-prose">
             A dedicated{" "}
-            <strong className="font-extrabold">Full‑Stack Developer</strong>{" "}
+            <strong className="font-extrabold">Full-Stack Developer</strong>{" "}
             skilled in crafting web applications using
             <span className="font-semibold bg-yellow-200 px-1 ml-1">
               JavaScript
@@ -99,8 +109,8 @@ export default function About() {
               Express
             </span>
             , complemented by proficiency in modern libraries and tooling. I
-            value{" "}
-            <span className="font-semibold underline decoration-4 decoration-yellow-300 underline-offset-2">
+            value
+            <span className="font-semibold underline decoration-4 decoration-yellow-300 underline-offset-2 ml-1">
               clean architecture
             </span>
             ,
@@ -118,12 +128,12 @@ export default function About() {
             .
           </p>
 
-          {/* tiny stack line (keep to essentials) */}
+          {/* Tiny stack line (keep minimal) */}
           <p className="mt-4 font-mono text-sm">
             React · Node.js · MongoDB · Tailwind · Stripe
           </p>
 
-          {/* CTAs — Resume, Email, View Projects */}
+          {/* CTAs */}
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <a
               href="/resume.pdf"
