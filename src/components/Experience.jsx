@@ -1,4 +1,4 @@
-/* Minimal, brutalist Experience section (concise bullets) */
+/* Minimal, brutalist Experience section matching your existing design */
 const HIGHLIGHTS = [
   "React.js",
   "Tailwind CSS",
@@ -41,13 +41,15 @@ const JOBS = [
   {
     company: "Rebb‑Tech",
     badge: "RT",
-    role: "Full Stack Developer",
-    period: "Feb 2024 – Present",
+    role: "Full Stack Developer Intern",
+    period: "Jun 2025 – Aug 2025 · 3 mos",
+    sub: "Sydney, New South Wales, Australia · Hybrid",
     bullets: [
-      "Built a bootcamp student tracking app (My Progress App) from scratch.",
+      "Built a bootcamp student tracking app (My Progress App) from scratch as an intern project.",
       "Implemented core features with React.js, Tailwind CSS, Node.js, and MongoDB.",
       "Designed dashboards using Chart.js and added secure JWT authentication.",
-      "Set up CI/CD using GitHub Actions and followed Agile routines.",
+      "Set up CI/CD using GitHub Actions and followed Agile development practices.",
+      "Collaborated with senior developers and gained hands-on full-stack experience.",
     ],
   },
   {

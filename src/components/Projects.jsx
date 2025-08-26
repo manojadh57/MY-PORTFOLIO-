@@ -1,113 +1,419 @@
-const PROJECTS = [
+import { useState, useRef, useEffect } from "react";
+import {
+  Play,
+  Pause,
+  ExternalLink,
+  Github,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
+
+/* =========================
+   Data
+========================= */
+
+// Featured Projects (E-commerce & Admin CMS)
+const FEATURED_PROJECTS = [
   {
-    title: "E‑Commerce Website",
+    id: 1,
+    title: "E-Commerce Website",
+    subtitle: "Customer Shopping Platform",
     blurb:
-      "Full MERN stack app with authentication, products, cart and Stripe payments.",
-    tech: ["React", "Node.js", "Express", "MongoDB", "Stripe"],
-    image: "/projects/ecommerce.jpg", // put file in /public/projects/
-    repo: "https://github.com/your/ecommerce",
-    demo: "https://your-ecommerce-demo.com",
+      "Full-featured online shopping platform with user authentication, product catalog, shopping cart, and secure Stripe payment integration.",
+    tech: ["React", "Node.js", "Express", "MongoDB", "Stripe", "JWT"],
+    image: "/projects/ecommerce.jpg",
+    video: "https://your-ecommerce-demo.vercel.app/videos/ecommerce-demo.mp4",
+    repo: "https://github.com/manojadh57/ecommerce-frontend",
+    demo: "https://your-ecommerce-demo.vercel.app",
   },
   {
-    title: "Library Management System",
-    blurb: "Catalog, borrow/return tracking, admin dashboards and user auth.",
-    tech: ["React", "Node.js", "Express", "MongoDB", "JWT"],
-    image: "/projects/library.jpg",
-    repo: "https://github.com/your/library",
-    demo: "https://your-library-demo.com",
-  },
-  {
-    title: "MovieWorld App",
+    id: 2,
+    title: "Admin CMS Dashboard",
+    subtitle: "E-commerce Management System",
     blurb:
-      "Browse & search movies via OMDb API with watchlist and details pages.",
-    tech: ["React", "Tailwind", "OMDb API"],
-    image: "/projects/movieworld.jpg",
-    repo: "https://github.com/your/movieworld",
-    demo: "https://your-movieworld-demo.com",
+      "Comprehensive admin dashboard for managing products, orders, customers, inventory, and sales analytics with intuitive interface.",
+    tech: ["React", "Node.js", "Express", "MongoDB", "Chart.js", "Admin Panel"],
+    image: "/projects/admin-cms.jpg",
+    video: "https://your-admin-cms.vercel.app/videos/admin-demo.mp4",
+    repo: "https://github.com/manojadh57/ecommerce-admin",
+    demo: "https://your-admin-cms.vercel.app",
   },
 ];
 
-function SubtleTag({ children }) {
+// Smaller Projects
+const SMALL_PROJECTS = [
+  {
+    id: 3,
+    title: "Weather Forecast",
+    blurb: "Real-time weather with 5-day forecast",
+    tech: ["React", "Weather API", "Geolocation"],
+    image: "/public/weather.png",
+    video:
+      "https://weather-forecast-five-teal.vercel.app/videos/weather-demo.mp4",
+    repo: "https://github.com/manojadh57/Weather-Forecast",
+    demo: "https://weather-forecast-five-teal.vercel.app",
+  },
+  {
+    id: 4,
+    title: "Currency Converter",
+    blurb: "Live exchange rates converter",
+    tech: ["React", "Exchange Rate API", "Local Storage"],
+    image: "/public/currency.png",
+    video:
+      "https://currency-converter-nine-vert.vercel.app/videos/currency-demo.mp4",
+    repo: "https://github.com/manojadh57/CURRENCY-CONVERTER",
+    demo: "https://currency-converter-nine-vert.vercel.app/",
+  },
+  {
+    id: 5,
+    title: "Movie Finder",
+    blurb: "Movie search with watchlist",
+    tech: ["React", "OMDb API", "Tailwind"],
+    image: "/public/movie.png",
+    video: "https://your-movie-app.vercel.app/videos/movie-demo.mp4",
+    repo: "https://github.com/manojadh57/movie-finder",
+    demo: "https://movie-finder-umber-nine.vercel.app/",
+  },
+  {
+    id: 6,
+    title: "React Calculator",
+    blurb: "Interactive calculator app",
+    tech: ["React", "JavaScript", "CSS3"],
+    image: "/public/calculator.png",
+    video:
+      "https://reactcalculator-livid.vercel.app/videos/calculator-demo.mp4",
+    repo: "https://github.com/manojadh57/REACTcalculator",
+    demo: "https://reactcalculator-livid.vercel.app",
+  },
+];
+
+/* =========================
+   Reusable UI
+========================= */
+
+function TechStack({ tech }) {
   return (
-    <span className="inline-block border-2 border-black px-2 py-0.5 text-xs font-mono mr-2 mb-2 bg-white shadow-[3px_3px_0_rgba(0,0,0,0.65)]">
-      {children}
-    </span>
+    <div className="flex flex-wrap gap-1">
+      {tech.map((t, idx) => (
+        <span
+          key={idx}
+          className="inline-block border border-black px-2 py-0.5 text-xs font-mono bg-yellow-200 shadow-[2px_2px_0_rgba(0,0,0,0.6)]"
+        >
+          {t}
+        </span>
+      ))}
+    </div>
   );
 }
 
-function ActionBtn({ href, children }) {
+function ActionButton({ href, children, variant = "primary", icon: Icon }) {
+  const base =
+    "inline-flex items-center gap-1 border-2 border-black font-semibold px-3 py-1.5 text-sm transition-all shadow-[3px_3px_0_rgba(0,0,0,0.8)] hover:shadow-[4px_4px_0_rgba(0,0,0,0.8)] hover:-translate-x-0.5 hover:-translate-y-0.5";
+  const variants = {
+    primary: "bg-yellow-300 hover:bg-yellow-400",
+    secondary: "bg-white hover:bg-gray-50",
+  };
   return (
     <a
       href={href}
       target="_blank"
       rel="noreferrer"
-      className="inline-block border-2 border-black bg-white font-semibold px-3 py-2 mr-3 shadow-[4px_4px_0_rgba(0,0,0,0.65)] hover:-translate-y-[2px] transition"
+      className={`${base} ${variants[variant]}`}
     >
+      {Icon && <Icon className="w-4 h-4" />}
       {children}
     </a>
   );
 }
 
-export default function Projects() {
+function VideoPlayer({ src, poster, isPlaying, onPlayPause, className = "" }) {
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    if (isPlaying) {
+      v.play().catch(() => {});
+    } else {
+      v.pause();
+    }
+  }, [isPlaying]);
+
   return (
-    <section id="projects" className="py-24 bg-white">
+    <div className={`relative group ${className}`}>
+      <video
+        ref={videoRef}
+        poster={poster}
+        muted
+        loop
+        playsInline
+        preload="none"
+        className="w-full h-full object-cover"
+        onError={(e) => {
+          // hide video, show the next-sibling image fallback
+          e.currentTarget.style.display = "none";
+          if (e.currentTarget.nextSibling) {
+            e.currentTarget.nextSibling.style.display = "block";
+          }
+        }}
+      >
+        <source src={src} type="video/mp4" />
+      </video>
+
+      {/* Image fallback (or poster placeholder) */}
+      <img
+        src={poster}
+        alt="Project preview"
+        className="w-full h-full object-cover"
+        style={{ display: "none" }}
+        onError={(e) => {
+          e.currentTarget.src =
+            "data:image/svg+xml;utf8," +
+            encodeURIComponent(
+              `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'>
+                 <rect width='400' height='300' fill='white' stroke='black' stroke-width='4'/>
+                 <text x='50%' y='50%' font-family='monospace' font-size='16' text-anchor='middle' fill='black'>Preview Coming Soon</text>
+               </svg>`
+            );
+        }}
+      />
+
+      {/* Hover controls */}
+      <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+        <button
+          aria-label={isPlaying ? "Pause video" : "Play video"}
+          onClick={onPlayPause}
+          className="bg-white/20 backdrop-blur-sm border-2 border-white/30 rounded-full p-3 text-white hover:bg-white/30 transition-colors"
+        >
+          {isPlaying ? (
+            <Pause className="w-5 h-5" />
+          ) : (
+            <Play className="w-5 h-5 ml-0.5" />
+          )}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* =========================
+   Small Projects Slider
+========================= */
+
+function SmallProjectCard({ project, isPlaying, onPlayPause }) {
+  return (
+    <div className="border-2 border-black bg-white shadow-[4px_4px_0_rgba(0,0,0,0.8)] w-72 flex-shrink-0">
+      <div className="relative aspect-video border-b-2 border-black">
+        <VideoPlayer
+          src={project.video}
+          poster={project.image}
+          isPlaying={isPlaying}
+          onPlayPause={onPlayPause}
+          className="h-full"
+        />
+      </div>
+
+      <div className="p-4">
+        <h4 className="font-extrabold mb-1 text-base">{project.title}</h4>
+        <p className="text-xs text-gray-600 mb-3">{project.blurb}</p>
+
+        <div className="mb-3">
+          <TechStack tech={project.tech} />
+        </div>
+
+        <div className="flex gap-2">
+          <ActionButton
+            href={project.demo}
+            variant="primary"
+            icon={ExternalLink}
+          >
+            Demo
+          </ActionButton>
+          <ActionButton href={project.repo} variant="secondary" icon={Github}>
+            Code
+          </ActionButton>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SmallProjectsSlider({ projects }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [playingVideo, setPlayingVideo] = useState(null);
+
+  // Card width math: w-72 (288) + gap-4 (16) = 304px per slide
+  const SLIDE_PX = 304;
+
+  const nextSlide = () => {
+    setCurrentIndex((prev) => (prev + 1) % projects.length);
+    setPlayingVideo(null);
+  };
+  const prevSlide = () => {
+    setCurrentIndex((prev) => (prev - 1 + projects.length) % projects.length);
+    setPlayingVideo(null);
+  };
+  const handleVideoToggle = (projectId) => {
+    setPlayingVideo(playingVideo === projectId ? null : projectId);
+  };
+
+  return (
+    <div className="border-2 border-black bg-gray-50 p-4 shadow-[4px_4px_0_rgba(0,0,0,0.8)]">
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="font-bold">Other Projects</h3>
+        <span className="font-mono text-xs text-gray-600">
+          {currentIndex + 1} of {projects.length}
+        </span>
+      </div>
+
+      <div className="overflow-hidden mb-4">
+        <div
+          className="flex gap-4 transition-transform duration-500 ease-in-out"
+          style={{ transform: `translateX(-${currentIndex * SLIDE_PX}px)` }}
+        >
+          {projects.map((project) => (
+            <SmallProjectCard
+              key={project.id}
+              project={project}
+              isPlaying={playingVideo === project.id}
+              onPlayPause={() => handleVideoToggle(project.id)}
+            />
+          ))}
+        </div>
+      </div>
+
+      <div className="flex justify-between items-center">
+        <button
+          onClick={prevSlide}
+          className="flex items-center gap-1 border-2 border-black bg-white px-3 py-1 text-sm font-semibold shadow-[2px_2px_0_rgba(0,0,0,0.8)] hover:-translate-y-0.5 transition-all"
+          aria-label="Previous"
+        >
+          <ChevronLeft className="w-4 h-4" />
+          Previous
+        </button>
+
+        <div className="flex gap-1">
+          {projects.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => {
+                setCurrentIndex(index);
+                setPlayingVideo(null);
+              }}
+              aria-label={`Go to slide ${index + 1}`}
+              className={`w-2 h-2 border border-black ${
+                index === currentIndex ? "bg-yellow-400" : "bg-white"
+              }`}
+            />
+          ))}
+        </div>
+
+        <button
+          onClick={nextSlide}
+          className="flex items-center gap-1 border-2 border-black bg-white px-3 py-1 text-sm font-semibold shadow-[2px_2px_0_rgba(0,0,0,0.8)] hover:-translate-y-0.5 transition-all"
+          aria-label="Next"
+        >
+          Next
+          <ChevronRight className="w-4 h-4" />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* =========================
+   Main Section
+========================= */
+
+export default function Projects() {
+  const [playingVideo, setPlayingVideo] = useState(null);
+
+  const handleVideoToggle = (projectId) => {
+    setPlayingVideo(playingVideo === projectId ? null : projectId);
+  };
+
+  return (
+    <section id="projects" className="py-16 bg-white">
       <div className="mx-auto w-[min(1100px,94vw)]">
-        {/* Section header – boxed brutalist */}
-        <div className="w-full flex justify-center mb-12">
+        {/* Section Header */}
+        <div className="text-center mb-12">
           <div className="inline-block border-2 border-black bg-white px-6 py-2 shadow-[6px_6px_0_rgba(0,0,0,0.7)]">
             <h2 className="text-2xl font-extrabold tracking-wide">PROJECTS</h2>
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {PROJECTS.map((p, i) => (
-            <article
-              key={i}
-              className="border-2 border-black bg-white shadow-[8px_8px_0_rgba(0,0,0,0.18)] flex flex-col"
+        {/* Featured Projects */}
+        <div className="grid md:grid-cols-2 gap-6 mb-12">
+          {FEATURED_PROJECTS.map((project) => (
+            <div
+              key={project.id}
+              className="border-2 border-black bg-white shadow-[6px_6px_0_rgba(0,0,0,0.8)]"
             >
-              {/* Thumbnail */}
-              <div className="relative overflow-hidden border-b-2 border-black">
-                {/* Maintain aspect ratio without CLS */}
-                <div className="w-full pt-[56%]" />
-                <img
-                  src={p.image}
-                  alt={p.title}
-                  className="absolute inset-0 h-full w-full object-cover"
-                  onError={(e) => {
-                    e.currentTarget.src =
-                      "data:image/svg+xml;utf8," +
-                      encodeURIComponent(
-                        `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 450'><rect width='800' height='450' fill='white' stroke='black' stroke-width='6'/><text x='50%' y='50%' font-family='monospace' font-size='32' text-anchor='middle' fill='black'>Preview unavailable</text></svg>`
-                      );
-                  }}
+              {/* Video */}
+              <div className="relative aspect-video border-b-2 border-black">
+                <VideoPlayer
+                  src={project.video}
+                  poster={project.image}
+                  isPlaying={playingVideo === project.id}
+                  onPlayPause={() => handleVideoToggle(project.id)}
+                  className="h-full"
                 />
-                {/* Title overlay */}
-                <div className="absolute bottom-0 left-0 right-0 bg-black/70 text-white px-4 py-3">
-                  <h3 className="text-lg md:text-xl font-extrabold tracking-wide">
-                    {p.title}
-                  </h3>
-                </div>
               </div>
 
-              {/* Body */}
-              <div className="p-4 flex-1 flex flex-col">
-                <p className="text-[15px] leading-relaxed mb-3">{p.blurb}</p>
+              {/* Content */}
+              <div className="p-5">
+                <h4 className="text-lg font-extrabold mb-1">{project.title}</h4>
+                <p className="text-teal-700 font-semibold mb-3 text-sm">
+                  {project.subtitle}
+                </p>
+                <p className="text-gray-700 text-sm leading-relaxed mb-4">
+                  {project.blurb}
+                </p>
 
-                {/* Tech tags */}
-                <div className="mt-1 mb-4 -m-1">
-                  {p.tech.map((t, idx) => (
-                    <SubtleTag key={idx}>{t}</SubtleTag>
-                  ))}
+                <div className="mb-4">
+                  <TechStack tech={project.tech} />
                 </div>
 
-                {/* Actions */}
-                <div className="mt-auto pt-2">
-                  <ActionBtn href={p.repo}>GitHub</ActionBtn>
-                  <ActionBtn href={p.demo}>Live Demo</ActionBtn>
+                <div className="flex gap-2">
+                  <ActionButton
+                    href={project.demo}
+                    variant="primary"
+                    icon={ExternalLink}
+                  >
+                    Live Demo
+                  </ActionButton>
+                  <ActionButton
+                    href={project.repo}
+                    variant="secondary"
+                    icon={Github}
+                  >
+                    Code
+                  </ActionButton>
                 </div>
               </div>
-            </article>
+            </div>
           ))}
+        </div>
+
+        {/* Small Projects Slider */}
+        <div className="mb-12">
+          <SmallProjectsSlider projects={SMALL_PROJECTS} />
+        </div>
+
+        {/* Call to Action */}
+        <div className="text-center">
+          <div className="inline-block border-2 border-black bg-yellow-300 px-6 py-3 shadow-[4px_4px_0_rgba(0,0,0,0.8)]">
+            <p className="font-semibold mb-2">More projects on GitHub</p>
+            <a
+              href="https://github.com/manojadh57"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 bg-black text-white px-4 py-2 font-bold hover:bg-gray-800 transition-colors text-sm"
+            >
+              <Github className="w-4 h-4" />
+              View All
+            </a>
+          </div>
         </div>
       </div>
     </section>
