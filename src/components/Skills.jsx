@@ -5,8 +5,16 @@ import {
   FaReact,
   FaNodeJs,
   FaDocker,
+  FaGit,
+  FaGithub,
 } from "react-icons/fa";
-import { SiTailwindcss, SiRedux, SiMongodb, SiExpress } from "react-icons/si";
+import {
+  SiTailwindcss,
+  SiRedux,
+  SiMongodb,
+  SiExpress,
+  SiGithub,
+} from "react-icons/si";
 
 const skills = [
   {
@@ -54,31 +62,36 @@ const skills = [
     name: "Docker",
     desc: "Containerized apps",
   },
+  {
+    icon: <FaGithub className="-600" />,
+    name: "GitHub",
+    desc: "Code collaboration platform",
+  },
 ];
 
 export default function Skills() {
   return (
-    <section id="skills" className="py-24 bg-white">
+    <section id="skills" className="py-12">
       <div className="mx-auto w-[min(1100px,94vw)] text-center">
         {/* Header */}
-        <div className="inline-block border-2 border-black px-6 py-2 bg-white shadow-[6px_6px_0_rgba(0,0,0,0.7)] mb-12">
-          <h2 className="font-extrabold text-2xl tracking-wide">SKILLS</h2>
+        <div className="inline-block border-2 border-black px-4 py-1 bg-white shadow-[4px_4px_0_rgba(0,0,0,0.7)] mb-8">
+          <h2 className="font-extrabold text-xl tracking-wide">SKILLS</h2>
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
           {skills.map((skill, idx) => (
             <div
               key={idx}
-              className="group border-2 border-black p-6 rounded-xl bg-white 
-                         shadow-[6px_6px_0_rgba(0,0,0,0.25)]
-                         transition-transform transform hover:-translate-y-2 hover:shadow-[10px_10px_0_rgba(0,0,0,0.5)]"
+              className="group border-2 border-black p-4 rounded-xl bg-white 
+                         shadow-[4px_4px_0_rgba(0,0,0,0.25)]
+                         transition-transform transform hover:-translate-y-2 hover:shadow-[6px_6px_0_rgba(0,0,0,0.5)]"
             >
-              <div className="text-5xl mb-4 flex justify-center">
+              <div className="text-3xl mb-2 flex justify-center">
                 {skill.icon}
               </div>
-              <h3 className="font-mono font-bold text-lg">{skill.name}</h3>
-              <p className="mt-2 text-sm text-gray-600 group-hover:text-gray-900 transition-colors">
+              <h3 className="font-mono font-bold text-sm">{skill.name}</h3>
+              <p className="mt-1 text-xs text-gray-600 group-hover:text-gray-900 transition-colors">
                 {skill.desc}
               </p>
             </div>
