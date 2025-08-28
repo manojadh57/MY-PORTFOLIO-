@@ -1,4 +1,3 @@
-/* Minimal, brutalist Experience section matching your existing design */
 const HIGHLIGHTS = [
   "React.js",
   "Tailwind CSS",
@@ -70,7 +69,7 @@ const JOBS = [
 
 export default function Experience() {
   return (
-    <section id="experience" className="py-24 bg-white">
+    <section id="experience" className="py-24">
       <div className="mx-auto w-[min(1100px,94vw)]">
         {/* Section header – boxed brutalist */}
         <div className="w-full flex justify-center mb-10">

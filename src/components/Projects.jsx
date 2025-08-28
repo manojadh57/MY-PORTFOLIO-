@@ -8,11 +8,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 
-/* =========================
-   Data
-========================= */
-
-// Featured Projects (E-commerce & Admin CMS)
+// Featured Projects
 const FEATURED_PROJECTS = [
   {
     id: 1,
@@ -47,7 +43,7 @@ const SMALL_PROJECTS = [
     title: "Weather Forecast",
     blurb: "Real-time weather with 5-day forecast",
     tech: ["React", "Weather API", "Geolocation"],
-    image: "/public/weather.png",
+    image: "/weather.png",
     video:
       "https://weather-forecast-five-teal.vercel.app/videos/weather-demo.mp4",
     repo: "https://github.com/manojadh57/Weather-Forecast",
@@ -58,7 +54,7 @@ const SMALL_PROJECTS = [
     title: "Currency Converter",
     blurb: "Live exchange rates converter",
     tech: ["React", "Exchange Rate API", "Local Storage"],
-    image: "/public/currency.png",
+    image: "/currency.png",
     video:
       "https://currency-converter-nine-vert.vercel.app/videos/currency-demo.mp4",
     repo: "https://github.com/manojadh57/CURRENCY-CONVERTER",
@@ -69,7 +65,7 @@ const SMALL_PROJECTS = [
     title: "Movie Finder",
     blurb: "Movie search with watchlist",
     tech: ["React", "OMDb API", "Tailwind"],
-    image: "/public/movie.png",
+    image: "/movie.png",
     video: "https://your-movie-app.vercel.app/videos/movie-demo.mp4",
     repo: "https://github.com/manojadh57/movie-finder",
     demo: "https://movie-finder-umber-nine.vercel.app/",
@@ -79,17 +75,13 @@ const SMALL_PROJECTS = [
     title: "React Calculator",
     blurb: "Interactive calculator app",
     tech: ["React", "JavaScript", "CSS3"],
-    image: "/public/calculator.png",
+    image: "/calculator.png",
     video:
       "https://reactcalculator-livid.vercel.app/videos/calculator-demo.mp4",
     repo: "https://github.com/manojadh57/REACTcalculator",
     demo: "https://reactcalculator-livid.vercel.app",
   },
 ];
-
-/* =========================
-   Reusable UI
-========================= */
 
 function TechStack({ tech }) {
   return (
@@ -196,10 +188,7 @@ function VideoPlayer({ src, poster, isPlaying, onPlayPause, className = "" }) {
   );
 }
 
-/* =========================
-   Small Projects Slider
-========================= */
-
+// Small Project Card
 function SmallProjectCard({ project, isPlaying, onPlayPause }) {
   return (
     <div className="border-2 border-black bg-white shadow-[4px_4px_0_rgba(0,0,0,0.8)] w-72 flex-shrink-0">
@@ -258,7 +247,7 @@ function SmallProjectsSlider({ projects }) {
   };
 
   return (
-    <div className="border-2 border-black bg-gray-50 p-4 shadow-[4px_4px_0_rgba(0,0,0,0.8)]">
+    <div className="border-2 border-black bg-white/90 backdrop-blur-sm p-4 shadow-[4px_4px_0_rgba(0,0,0,0.8)]">
       <div className="flex justify-between items-center mb-4">
         <h3 className="font-bold">Other Projects</h3>
         <span className="font-mono text-xs text-gray-600">
@@ -321,10 +310,6 @@ function SmallProjectsSlider({ projects }) {
   );
 }
 
-/* =========================
-   Main Section
-========================= */
-
 export default function Projects() {
   const [playingVideo, setPlayingVideo] = useState(null);
 
@@ -333,7 +318,7 @@ export default function Projects() {
   };
 
   return (
-    <section id="projects" className="py-16 bg-white">
+    <section id="projects" className="py-16">
       <div className="mx-auto w-[min(1100px,94vw)]">
         {/* Section Header */}
         <div className="text-center mb-12">
