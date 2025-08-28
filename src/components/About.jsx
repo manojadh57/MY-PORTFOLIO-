@@ -69,7 +69,7 @@ export default function About() {
                 <span className="absolute inset-0 rounded-full bg-green-600" />
               </span>
               <span className="font-mono text-sm">
-                <strong>Available</strong> — React/Node · Sydney · Remote/Hybrid
+                <strong>Available</strong> — Australia · Remote/Hybrid
               </span>
             </div>
           </div>
@@ -126,11 +126,6 @@ export default function About() {
               measurable performance
             </span>
             .
-          </p>
-
-          {/* Tiny stack line (keep minimal) */}
-          <p className="mt-4 font-mono text-sm">
-            React · Node.js · MongoDB · Tailwind · Stripe
           </p>
 
           {/* CTAs */}

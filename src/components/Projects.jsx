@@ -17,10 +17,10 @@ const FEATURED_PROJECTS = [
     blurb:
       "Full-featured online shopping platform with user authentication, product catalog, shopping cart, and secure Stripe payment integration.",
     tech: ["React", "Node.js", "Express", "MongoDB", "Stripe", "JWT"],
-    image: "/projects/ecommerce.jpg",
+    image: "/client.png",
     video: "https://your-ecommerce-demo.vercel.app/videos/ecommerce-demo.mp4",
-    repo: "https://github.com/manojadh57/ecommerce-frontend",
-    demo: "https://your-ecommerce-demo.vercel.app",
+    repo: "https://github.com/manojadh57/ecommerce-admin-FE",
+    demo: "http://ecommerce-client-fe-global-bucket.s3-website-ap-southeast-2.amazonaws.com/",
   },
   {
     id: 2,
@@ -29,10 +29,10 @@ const FEATURED_PROJECTS = [
     blurb:
       "Comprehensive admin dashboard for managing products, orders, customers, inventory, and sales analytics with intuitive interface.",
     tech: ["React", "Node.js", "Express", "MongoDB", "Chart.js", "Admin Panel"],
-    image: "/projects/admin-cms.jpg",
+    image: "/admin.png",
     video: "https://your-admin-cms.vercel.app/videos/admin-demo.mp4",
-    repo: "https://github.com/manojadh57/ecommerce-admin",
-    demo: "https://your-admin-cms.vercel.app",
+    repo: "https://github.com/manojadh57/ecommerce-admin-FE",
+    demo: "http://ecommerce-global-bucket.s3-website-ap-southeast-2.amazonaws.com/",
   },
 ];
 

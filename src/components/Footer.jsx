@@ -18,7 +18,7 @@ export default function Footer() {
   }).format(now);
 
   return (
-    // 👇 not sticky anymore
+   
     <footer className="relative mt-16" role="contentinfo">
       <div className="mx-auto max-w-6xl px-4">
         <div className="mb-2 h-1 bg-black/80" />
