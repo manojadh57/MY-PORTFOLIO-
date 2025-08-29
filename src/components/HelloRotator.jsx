@@ -4,10 +4,6 @@ import { AnimatePresence, motion } from "framer-motion";
 
 /**
  * Rotates “Hello, my name is …” across languages with a flag + 🙂.
- * Props:
- *  - name?: string        (default "Manoj Adhikari")
- *  - interval?: number    (ms per phrase, default 2200)
- *  - className?: string
  */
 export default function HelloRotator({
   name = "Manoj Adhikari",
@@ -16,7 +12,6 @@ export default function HelloRotator({
 }) {
   const items = useMemo(
     () => [
-      // Use 🇦🇺 for English since you're based in Sydney.
       {
         flag: "🇦🇺",
         dir: "ltr",
@@ -135,10 +130,11 @@ export default function HelloRotator({
 
   return (
     <div className={`mb-4 ${className}`}>
-      <div className="inline-flex max-w-full items-center gap-3 border-2 border-black bg-white px-3 py-2 rounded-xl shadow-[6px_6px_0_#000]">
-        {/* Flag badge replaces language code */}
+      {/* MATCHES ABOUT BOX: single border, offset shadow, square corners */}
+      <div className="inline-flex max-w-full items-center gap-3 border-2 border-black bg-white px-3 py-2 shadow-[6px_6px_0_#000] rounded-none">
+        {/* Flag chip – same visual language (single border + small shadow), square */}
         <span
-          className="inline-flex h-6 min-w-8 items-center justify-center rounded-sm border-2 border-black bg-yellow-300 px-1 text-base leading-none"
+          className="inline-flex h-6 min-w-8 items-center justify-center border-2 border-black bg-yellow-300 px-1 leading-none shadow-[4px_4px_0_#000] rounded-none"
           role="img"
           aria-label="language flag"
         >
@@ -160,7 +156,6 @@ export default function HelloRotator({
           </motion.div>
         </AnimatePresence>
       </div>
-      {/* language chips removed as requested */}
     </div>
   );
 }

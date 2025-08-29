@@ -5,15 +5,18 @@ import {
   FaReact,
   FaNodeJs,
   FaDocker,
-  FaGit,
   FaGithub,
+  FaAws,
+  FaCogs,
+  FaEllipsisH,
+  FaMicrosoft, // <- use FA Microsoft instead of SiMicrosoftazure
 } from "react-icons/fa";
 import {
-  SiTailwindcss,
   SiRedux,
   SiMongodb,
   SiExpress,
-  SiGithub,
+  SiCplusplus,
+  SiFigma,
 } from "react-icons/si";
 
 const skills = [
@@ -63,9 +66,41 @@ const skills = [
     desc: "Containerized apps",
   },
   {
-    icon: <FaGithub className="-600" />,
+    icon: <FaGithub className="text-gray-900" />,
     name: "GitHub",
     desc: "Code collaboration platform",
+  },
+
+  // Added skills
+  {
+    icon: <FaAws className="text-orange-500" />,
+    name: "AWS",
+    desc: "EC2, S3, Lambda, more",
+  },
+  {
+    icon: <FaMicrosoft className="text-blue-700" />,
+    name: "Azure",
+    desc: "App Service, Functions",
+  }, // <- changed
+  {
+    icon: <SiCplusplus className="text-blue-700" />,
+    name: "C++",
+    desc: "STL, OOP, performance",
+  },
+  {
+    icon: <SiFigma className="text-pink-500" />,
+    name: "Figma",
+    desc: "Wireframes & handoff",
+  },
+  {
+    icon: <FaCogs className="text-gray-800" />,
+    name: "CI/CD",
+    desc: "Pipelines & automation",
+  },
+  {
+    icon: <FaEllipsisH className="text-gray-700" />,
+    name: "Many more",
+    desc: "Postgres, Vercel, Nginx…",
   },
 ];
 
@@ -73,19 +108,17 @@ export default function Skills() {
   return (
     <section id="skills" className="py-12">
       <div className="mx-auto w-[min(1100px,94vw)] text-center">
-        {/* Header */}
-        <div className="inline-block border-2 border-black px-4 py-1 bg-white shadow-[4px_4px_0_rgba(0,0,0,0.7)] mb-8">
+        <div className="inline-block border-2 border-black bg-white px-5 py-2 shadow-[6px_6px_0_#000] rounded-none mb-8">
           <h2 className="font-extrabold text-xl tracking-wide">SKILLS</h2>
         </div>
 
-        {/* Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
           {skills.map((skill, idx) => (
             <div
               key={idx}
-              className="group border-2 border-black p-4 rounded-xl bg-white 
-                         shadow-[4px_4px_0_rgba(0,0,0,0.25)]
-                         transition-transform transform hover:-translate-y-2 hover:shadow-[6px_6px_0_rgba(0,0,0,0.5)]"
+              className="group border-2 border-black bg-white p-4 rounded-none
+                         shadow-[6px_6px_0_#000] transition-transform
+                         hover:translate-x-0.5 hover:-translate-y-0.5"
             >
               <div className="text-3xl mb-2 flex justify-center">
                 {skill.icon}
