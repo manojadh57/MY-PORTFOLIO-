@@ -9,13 +9,8 @@ import {
   FaMapMarkerAlt,
 } from "react-icons/fa";
 
-// If you keep the PDF in /public:
-const RESUME_URL = "/Manoj Adhikari - Resume.pdf";
-const DOWNLOAD_NAME = "Manoj Adhikari - Resume.pdf";
-
-// If you instead keep it under src/assets, import it like:
-// import resumePdf from "@/assets/Manoj_Adhikari_Resume.pdf";
-// const RESUME_URL = resumePdf;
+const RESUME_URL = "/Manoj Adhikari_Resume.pdf";
+const DOWNLOAD_NAME = "Manoj Adhikari_Resume.pdf";
 
 export default function Resume({ onClose }) {
   const resumeRef = useRef(null);
@@ -213,24 +208,25 @@ export default function Resume({ onClose }) {
                     <span className="absolute left-0 text-blue-600 font-bold">
                       ▪
                     </span>
-                    Built a student-tracking web app from scratch to MVP,
-                    gathering requirements and shipping iteratively in Agile
-                    sprints
+                    Architected and shipped responsive front-ends using
+                    React.js, Redux, and Tailwind CSS, boosting accessibility
+                    scores and reducing bounce rate by 25%.
                   </li>
                   <li className="relative pl-4 text-xs leading-relaxed text-gray-700">
                     <span className="absolute left-0 text-blue-600 font-bold">
                       ▪
                     </span>
-                    Developed responsive, accessible front-end with React +
-                    Tailwind; built instructor dashboards with Chart.js
+                    Engineered secure APIs with Node.js, Express, and MongoDB,
+                    cutting average response latency by ~30% while improving
+                    maintainability through modular design.
                   </li>
                   <li className="relative pl-4 text-xs leading-relaxed text-gray-700">
                     <span className="absolute left-0 text-blue-600 font-bold">
                       ▪
                     </span>
-                    Engineered secure back-end APIs using Node.js/Express and
-                    MongoDB; implemented REST endpoints with JWT authentication
-                    and RBAC
+                    Co-developed “My Progress App”, enhancing student engagement
+                    by integrating personalised career tools; user activity
+                    increased by 40%
                   </li>
                   <li className="relative pl-4 text-xs leading-relaxed text-gray-700">
                     <span className="absolute left-0 text-blue-600 font-bold">
@@ -244,15 +240,17 @@ export default function Resume({ onClose }) {
                     <span className="absolute left-0 text-blue-600 font-bold">
                       ▪
                     </span>
-                    Optimised performance, reducing page load times by 35% and
-                    improving user experience
+                    Partnered with cross-disciplinary teams (Design, QA, DevOps)
+                    to release new features, resolve defects, and uphold
+                    scalability and security standards.
                   </li>
                   <li className="relative pl-4 text-xs leading-relaxed text-gray-700">
                     <span className="absolute left-0 text-blue-600 font-bold">
                       ▪
                     </span>
-                    Increased engagement-tracking coverage by 40%, enabling
-                    real-time insights for instructors
+                    Automated CI/CD pipelines with GitHub Actions; achieved 95%
+                    unit/integration test coverage with Jest, accelerating
+                    release cycles by 2×.
                   </li>
                   <li className="relative pl-4 text-xs leading-relaxed text-gray-700">
                     <span className="absolute left-0 text-blue-600 font-bold">
