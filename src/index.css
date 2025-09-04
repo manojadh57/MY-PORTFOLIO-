@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ========= FONTS ========= */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;600&family=Space+Grotesk:wght@600;700&family=Bebas+Neue&display=swap');
+
 /* ========= THEME TOKENS (CSS Variables) ========= */
 /* Default: Swiss/Neutral */
 :root {
@@ -17,7 +20,7 @@
 
   --font-sans: "Inter", system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  --font-display: "Space Grotesk", var(--font-sans);
+  --font-display: "Space Grotesk", "Inter", system-ui, sans-serif;
 }
 
 /* Brutalist (Dark) */
@@ -42,8 +45,8 @@
   --accent: #8b5cf6;
   --muted: #9aa6b2;
 
-  --shadow-weak: rgba(16, 20, 27, 0.45);
-  --shadow-strong: rgba(16, 20, 27, 0.6);
+  --shadow-weak: rgba(16,20,27,0.45);
+  --shadow-strong: rgba(16,20,27,0.6);
 }
 
 /* Ghibli Pastel */
@@ -55,20 +58,19 @@
   --accent: #5aa382;
   --muted: #6b7280;
 
-  --shadow-weak: rgba(43, 43, 43, 0.12);
-  --shadow-strong: rgba(43, 43, 43, 0.18);
+  --shadow-weak: rgba(43,43,43,0.12);
+  --shadow-strong: rgba(43,43,43,0.18);
 }
 
 /* ========= BASE ========= */
 html, body, #root {
-  /* remove bg-bg so the art can be seen */
-  @apply min-h-screen text-fg m-0 p-0;
-  background: transparent;                  /* << key change */
-  font-family: var(--font-mono);
+  /* keep the canvas transparent for your art; resume sets its own bg */
+  @apply min-h-screen m-0 p-0 text-fg;
+  background: transparent;
+  font-family: var(--font-sans);
   scroll-behavior: smooth;
 }
 
-/* ========= TYPOGRAPHY ========= */
 .section-title {
   @apply text-3xl md:text-4xl font-extrabold uppercase tracking-tight;
 }
@@ -99,7 +101,10 @@ html, body, #root {
   @apply inline-flex items-center gap-2 border-2 border-border px-4 py-2 bg-card transition;
   box-shadow: 4px 4px 0 var(--shadow-weak);
 }
-.btn-brutal:hover { transform: translate(-1px, -1px); box-shadow: 6px 6px 0 var(--shadow-strong); }
+.btn-brutal:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 6px 6px 0 var(--shadow-strong);
+}
 .btn-accent { @apply bg-accent text-fg; }
 
 /* ========= MARQUEE ========= */
@@ -130,12 +135,10 @@ html, body, #root {
   }
 }
 
-/* Display font for the big single-line name */
-@font-face {
-  font-family: 'Bebas Neue';
-  src: url('https://fonts.gstatic.com/s/bebasneue/v9/LYjQw4c8a1b0d3k5e2f6Z7z5Y3s.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
+/* Display font if you want to use it for the name */
+.name-display {
+  font-family: "Bebas Neue", var(--font-display);
+  letter-spacing: 0.5px;
 }
 
 /* Blinking caret for role line (if you use it anywhere) */
@@ -143,10 +146,7 @@ html, body, #root {
   0%, 45% { box-shadow: inset -2px 0 0 var(--fg); }
   50%,100% { box-shadow: inset -2px 0 0 transparent; }
 }
-.animate-caret {
-  padding-right: 6px;
-  animation: caretBlink 1s steps(1) infinite;
-}
+.animate-caret { padding-right: 6px; animation: caretBlink 1s steps(1) infinite; }
 
 @keyframes blink {
   0%, 50% { opacity: 1; }
@@ -159,3 +159,53 @@ html, body, #root {
 
 /* Subtle accessible focus */
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ========= RESUME PRINT STYLES ========= */
+@media print {
+  /* Hide everything except resume content when printing */
+  body * { visibility: hidden; }
+
+  .resume-content,
+  .resume-content * {
+    visibility: visible;
+  }
+
+  .resume-content {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    background: #ffffff !important; /* force white paper */
+    color: #000000 !important;
+    font-size: 10px !important;
+    line-height: 1.3 !important;
+    padding: 0.5in !important;
+    margin: 0 !important;
+    page-break-inside: avoid;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Ensure proper page breaks */
+  .resume-content > div { page-break-inside: avoid; }
+
+  /* Hide interactive elements when printing */
+  button, .fixed, .sticky { display: none !important; }
+
+  /* Optimise colours for printing */
+  .bg-blue-50 { background-color: #f8f9ff !important; }
+  .text-blue-600, .text-blue-800 { color: #1e40af !important; }
+  .border-blue-600 { border-color: #1e40af !important; }
+
+  /* Tighter spacing for print */
+  .space-y-1 > * + * { margin-top: 0.1rem !important; }
+  .space-y-3 > * + * { margin-top: 0.3rem !important; }
+  .mb-5 { margin-bottom: 0.8rem !important; }
+
+  /* Keep links readable without URLs printed after */
+  a[href]::after { content: none !important; }
+  a { color: #1e40af !important; text-decoration: underline !important; }
+}

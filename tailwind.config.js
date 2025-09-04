@@ -1,6 +1,12 @@
-// tailwind.config.js
+/** @type {import('tailwindcss').Config} */
+
 export default {
-  content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
+  content: [
+    "./index.html",
+    "./src/**/*.{js,jsx,ts,tsx}",
+    "./app/**/*.{js,jsx,ts,tsx}",
+    "./components/**/*.{js,jsx,ts,tsx}",
+  ],
   theme: {
     extend: {
       colors: {
@@ -12,9 +18,14 @@ export default {
         muted: "var(--muted)",
       },
       fontFamily: {
-        mono: ["IBM Plex Mono", "monospace"],
-        sans: ["Inter", "system-ui", "sans-serif"],
-        display: ["Space Grotesk", "Inter", "sans-serif"],
+        // Use CSS vars so themes can swap fonts without code changes
+        sans: ["var(--font-sans)"],
+        mono: ["var(--font-mono)"],
+        display: ["var(--font-display)"],
+      },
+      boxShadow: {
+        brutalWeak: "6px 6px 0 var(--shadow-weak)",
+        brutalStrong: "8px 8px 0 var(--shadow-strong)",
       },
     },
   },
