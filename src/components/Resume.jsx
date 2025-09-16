@@ -186,105 +186,117 @@ export default function Resume({ onClose }) {
                 Work Experience
               </h2>
 
-              {/* Job 1 */}
+              {/* REBB TECH */}
               <div className="mb-4 avoid-break">
                 <div className="mb-2">
                   <div className="flex justify-between items-start">
                     <div>
                       <h3 className="text-sm font-semibold text-gray-800">
-                        Full-Stack Developer Intern
+                        Full-stack Developer
                       </h3>
                       <div className="text-sm text-gray-600 italic">
-                        REBB TECH Pty Ltd, Sydney
+                        REBB TECH PTY LTD · Sydney, NSW · Hybrid
                       </div>
                     </div>
                     <span className="text-xs text-gray-600 font-medium">
-                      Jun–Aug 2025
+                      Jun 2024 – Aug 2025 · 1 yr 3 mos
                     </span>
                   </div>
                 </div>
+
                 <ul className="list-none ml-0 space-y-1">
                   <li className="relative pl-4 text-xs leading-relaxed text-gray-700">
                     <span className="absolute left-0 text-blue-600 font-bold">
                       ▪
                     </span>
-                    Architected and shipped responsive front-ends using
-                    React.js, Redux, and Tailwind CSS, boosting accessibility
-                    scores and reducing bounce rate by 25%.
+                    Developed scalable job-portal application to enhance student
+                    engagement, track progress, and measure bootcamp career
+                    readiness.
                   </li>
                   <li className="relative pl-4 text-xs leading-relaxed text-gray-700">
                     <span className="absolute left-0 text-blue-600 font-bold">
                       ▪
                     </span>
-                    Engineered secure APIs with Node.js, Express, and MongoDB,
-                    cutting average response latency by ~30% while improving
-                    maintainability through modular design.
+                    Engineered responsive UIs with React.js, Redux, React
+                    Router, and Tailwind CSS for seamless, accessible user
+                    experiences.
                   </li>
                   <li className="relative pl-4 text-xs leading-relaxed text-gray-700">
                     <span className="absolute left-0 text-blue-600 font-bold">
                       ▪
                     </span>
-                    Co-developed “My Progress App”, enhancing student engagement
-                    by integrating personalised career tools; user activity
-                    increased by 40%
+                    Designed backend services with Node.js/Express.js; optimized
+                    authentication and database management for high performance.
                   </li>
                   <li className="relative pl-4 text-xs leading-relaxed text-gray-700">
                     <span className="absolute left-0 text-blue-600 font-bold">
                       ▪
                     </span>
-                    Set up CI/CD pipelines via GitHub Actions
-                    (build/test/deploy), managed code reviews, and collaborated
-                    using ClickUp, Figma, and GitHub
+                    Implemented interactive dashboards using Chart.js & Recharts
+                    for real-time analytics and reporting.
                   </li>
                   <li className="relative pl-4 text-xs leading-relaxed text-gray-700">
                     <span className="absolute left-0 text-blue-600 font-bold">
                       ▪
                     </span>
-                    Partnered with cross-disciplinary teams (Design, QA, DevOps)
-                    to release new features, resolve defects, and uphold
-                    scalability and security standards.
+                    Led API architecture & security with JWT auth and role-based
+                    access control (RBAC).
                   </li>
                   <li className="relative pl-4 text-xs leading-relaxed text-gray-700">
                     <span className="absolute left-0 text-blue-600 font-bold">
                       ▪
                     </span>
-                    Automated CI/CD pipelines with GitHub Actions; achieved 95%
-                    unit/integration test coverage with Jest, accelerating
-                    release cycles by 2×.
+                    Collaborated in Agile squads using ClickUp, Figma, and
+                    GitHub for planning, reviews, and version control.
                   </li>
                   <li className="relative pl-4 text-xs leading-relaxed text-gray-700">
                     <span className="absolute left-0 text-blue-600 font-bold">
                       ▪
                     </span>
-                    Improved maintainability and security of the codebase,
-                    supporting scalable growth
+                    Automated CI/CD with GitHub Actions to improve deployment
+                    efficiency and reliability.
                   </li>
                 </ul>
-                <div className="mt-2 p-3 bg-blue-50 rounded border-l-4 border-blue-600">
+
+                {/* Impact */}
+                <div className="mt-3 p-3 bg-blue-50 rounded border-l-4 border-blue-600">
                   <div className="text-xs font-semibold text-blue-800 mb-1">
-                    Tech Stack:
+                    Impact
                   </div>
-                  <div className="text-xs text-gray-600">
-                    React, Tailwind, Chart.js, Node.js, Express, MongoDB, JWT,
-                    GitHub Actions, ClickUp, Figma, Agile
-                  </div>
+                  <ul className="list-none ml-0 space-y-1">
+                    <li className="relative pl-4 text-xs leading-relaxed text-gray-700">
+                      <span className="absolute left-0">✓</span>
+                      Reduced app load time by ~35%, improving UX and
+                      responsiveness.
+                    </li>
+                    <li className="relative pl-4 text-xs leading-relaxed text-gray-700">
+                      <span className="absolute left-0">✓</span>
+                      Improved student engagement tracking by ~40% for
+                      instructors/admins.
+                    </li>
+                    <li className="relative pl-4 text-xs leading-relaxed text-gray-700">
+                      <span className="absolute left-0">✓</span>
+                      Enhanced maintainability & security, supporting scalable,
+                      high-performing web apps.
+                    </li>
+                  </ul>
                 </div>
               </div>
 
-              {/* Job 2 */}
+              {/* Evolution Hospitality Institute — Internship */}
               <div className="mb-4 avoid-break">
                 <div className="mb-2">
                   <div className="flex justify-between items-start">
                     <div>
                       <h3 className="text-sm font-semibold text-gray-800">
-                        Information Technology Support Specialist
+                        Back End Developer · Internship
                       </h3>
                       <div className="text-sm text-gray-600 italic">
-                        Evolution Hospitality Institute, Sydney
+                        Evolution Hospitality Institute · Sydney, NSW · On-site
                       </div>
                     </div>
                     <span className="text-xs text-gray-600 font-medium">
-                      Jun–Dec 2024
+                      Nov 2023 – Feb 2024 · 4 mos
                     </span>
                   </div>
                 </div>
@@ -293,48 +305,123 @@ export default function Resume({ onClose }) {
                     <span className="absolute left-0 text-blue-600 font-bold">
                       ▪
                     </span>
-                    Delivered Tier 1/2 support across Windows and macOS,
-                    resolving hardware, networking, printing, and application
-                    issues with 96% SLA compliance
+                    Developed backend architecture for a cognitive-skills quiz
+                    app using Node.js, Express.js & MongoDB.
                   </li>
                   <li className="relative pl-4 text-xs leading-relaxed text-gray-700">
                     <span className="absolute left-0 text-blue-600 font-bold">
                       ▪
                     </span>
-                    Administered Microsoft 365 & Active Directory user lifecycle
-                    (joiners/movers/leavers), licensing, and access controls
+                    Designed RESTful APIs and ensured seamless communication
+                    between frontend & backend.
                   </li>
                   <li className="relative pl-4 text-xs leading-relaxed text-gray-700">
                     <span className="absolute left-0 text-blue-600 font-bold">
                       ▪
                     </span>
-                    Standardised device imaging/onboarding, reducing setup time
-                    by 35% and improving time-to-productivity
-                  </li>
-                  <li className="relative pl-4 text-xs leading-relaxed text-gray-700">
-                    <span className="absolute left-0 text-blue-600 font-bold">
-                      ▪
-                    </span>
-                    Authored knowledge base content and trained staff/students
-                    on Moodle & Microsoft 365
-                  </li>
-                  <li className="relative pl-4 text-xs leading-relaxed text-gray-700">
-                    <span className="absolute left-0 text-blue-600 font-bold">
-                      ▪
-                    </span>
-                    Partnered with dev teams on web/UI fixes and a
-                    React/Node/Mongo learning portal
+                    Collaborated in a 4-intern team to gather client
+                    requirements & deliver on time.
                   </li>
                 </ul>
-                <div className="mt-2 p-3 bg-blue-50 rounded border-l-4 border-blue-600">
-                  <div className="text-xs font-semibold text-blue-800 mb-1">
-                    Tech Stack:
-                  </div>
-                  <div className="text-xs text-gray-600">
-                    Microsoft Azure, Microsoft 365, Active Directory,
-                    Windows/macOS, Moodle, Office 365 Admin
+              </div>
+
+              {/* Freelance */}
+              <div className="mb-4 avoid-break">
+                <div className="mb-2">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <h3 className="text-sm font-semibold text-gray-800">
+                        Full-stack Developer
+                      </h3>
+                      <div className="text-sm text-gray-600 italic">
+                        Freelance
+                      </div>
+                    </div>
+                    <span className="text-xs text-gray-600 font-medium">
+                      Jan 2023 – Apr 2023 · 4 mos
+                    </span>
                   </div>
                 </div>
+                <ul className="list-none ml-0 space-y-1">
+                  <li className="relative pl-4 text-xs leading-relaxed text-gray-700">
+                    <span className="absolute left-0 text-blue-600 font-bold">
+                      ▪
+                    </span>
+                    Designed and built a booking platform with integrated
+                    payments to streamline operations.
+                  </li>
+                  <li className="relative pl-4 text-xs leading-relaxed text-gray-700">
+                    <span className="absolute left-0 text-blue-600 font-bold">
+                      ▪
+                    </span>
+                    Refactored & optimized legacy codebases to improve
+                    maintainability and reduce downtime.
+                  </li>
+                  <li className="relative pl-4 text-xs leading-relaxed text-gray-700">
+                    <span className="absolute left-0 text-blue-600 font-bold">
+                      ▪
+                    </span>
+                    Ensured code quality with Jest; collaborated efficiently
+                    using Git/GitHub.
+                  </li>
+                  <li className="relative pl-4 text-xs leading-relaxed text-gray-700">
+                    <span className="absolute left-0 text-blue-600 font-bold">
+                      ▪
+                    </span>
+                    Translated business requirements into scalable, functional
+                    technical solutions.
+                  </li>
+                </ul>
+              </div>
+
+              {/* Domino’s */}
+              <div className="mb-2 avoid-break">
+                <div className="mb-2">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <h3 className="text-sm font-semibold text-gray-800">
+                        Shift Manager · Part-time
+                      </h3>
+                      <div className="text-sm text-gray-600 italic">
+                        Domino’s Pizza · Sydney, NSW · On-site
+                      </div>
+                    </div>
+                    <span className="text-xs text-gray-600 font-medium">
+                      Aug 2019 – Mar 2021 · 1 yr 8 mos
+                    </span>
+                  </div>
+                </div>
+                <ul className="list-none ml-0 space-y-1">
+                  <li className="relative pl-4 text-xs leading-relaxed text-gray-700">
+                    <span className="absolute left-0 text-blue-600 font-bold">
+                      ▪
+                    </span>
+                    Managed store operations and cross-functional teams to
+                    ensure smooth daily workflows.
+                  </li>
+                  <li className="relative pl-4 text-xs leading-relaxed text-gray-700">
+                    <span className="absolute left-0 text-blue-600 font-bold">
+                      ▪
+                    </span>
+                    Introduced process improvements with SOPs and real-time
+                    tracking, reducing errors and boosting efficiency.
+                  </li>
+                  <li className="relative pl-4 text-xs leading-relaxed text-gray-700">
+                    <span className="absolute left-0 text-blue-600 font-bold">
+                      ▪
+                    </span>
+                    Used data dashboards to monitor orders, stock, and feedback;
+                    improved accuracy and service speed.
+                  </li>
+                  <li className="relative pl-4 text-xs leading-relaxed text-gray-700">
+                    <span className="absolute left-0 text-blue-600 font-bold">
+                      ▪
+                    </span>
+                    Built leadership, problem-solving, and
+                    customer-communication skills applied later in software
+                    projects.
+                  </li>
+                </ul>
               </div>
             </div>
 

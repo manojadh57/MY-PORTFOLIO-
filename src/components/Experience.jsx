@@ -1,24 +1,33 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, CheckCircle2, Diamond } from "lucide-react";
 
+/* 🔎 Keywords to emphasize inline */
 const HIGHLIGHTS = [
   "React.js",
+  "Redux",
+  "React Router",
   "Tailwind CSS",
   "Node.js",
-  "Express",
+  "Express.js",
   "MongoDB",
   "Chart.js",
+  "Recharts",
   "JWT",
+  "RBAC",
   "CI/CD",
   "GitHub Actions",
+  "ClickUp",
+  "Figma",
+  "Git/GitHub",
+  "Agile",
+  "Jest",
   "Microsoft 365",
   "Office 365",
   "Active Directory",
   "Windows",
   "macOS",
   "Moodle",
-  "Agile",
 ];
 
 function Emph({ text }) {
@@ -39,35 +48,92 @@ function Emph({ text }) {
   );
 }
 
+function Bullet({ children }) {
+  return (
+    <li className="flex gap-2 leading-relaxed text-[15px]">
+      <Diamond className="mt-1 h-4 w-4 shrink-0 text-blue-600" />
+      <span>
+        <Emph text={children} />
+      </span>
+    </li>
+  );
+}
+
+function ImpactBullet({ children }) {
+  return (
+    <li className="flex gap-2 leading-relaxed text-[15px]">
+      <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-green-600" />
+      <span>
+        <Emph text={children} />
+      </span>
+    </li>
+  );
+}
+
+/* ✅ Jobs (synced with your LinkedIn screenshots) */
 const JOBS = [
   {
-    company: "Rebb-Tech",
+    company: "REBB TECH PTY LTD",
     badge: "RT",
-    logo: "rebb.jpeg",
-    role: "Full Stack Developer Intern",
-    period: "Jun 2025 – Aug 2025 · 3 mos",
+    logo: "rebb.jpeg", // keep if you have the asset; else fallback to badge
+    role: "Full-stack Developer",
+    period: "Jun 2024 – Aug 2025 · 1 yr 3 mos",
     sub: "Sydney, New South Wales, Australia · Hybrid",
     bullets: [
-      "Built a bootcamp student tracking app (My Progress App) from scratch as an intern project.",
-      "Implemented core features with React.js, Tailwind CSS, Node.js, and MongoDB.",
-      "Designed dashboards using Chart.js and added secure JWT authentication.",
-      "Set up CI/CD using GitHub Actions and followed Agile development practices.",
-      "Collaborated with senior developers and gained hands-on full-stack experience.",
+      "Developed scalable job portal application, a platform that enhances student engagement, tracks progress, and measures career readiness for coding bootcamps.",
+      "Engineered responsive UIs using React.js, Redux, React Router, and Tailwind CSS, ensuring a seamless and accessible user experience.",
+      "Designed scalable backend services with Node.js, Express.js, optimizing authentication and database management for high performance.",
+      "Implemented interactive dashboards with Chart.js & Recharts, enabling real-time data visualization and analytics.",
+      "Led API architecture & security, implementing JWT-based authentication and role-based access control (RBAC) for enhanced data protection.",
+      "Collaborated in Agile teams, using ClickUp, Figma, and GitHub to streamline project management, version control, and cross-functional teamwork.",
+      "Automated CI/CD pipelines with GitHub Actions, improving deployment efficiency and system reliability.",
+    ],
+    impactTitle: "Impact",
+    impactBullets: [
+      "Reduced app load time by 35%, enhancing user experience and platform responsiveness.",
+      "Improved student engagement tracking by 40%, enabling better insights for instructors and bootcamp administrators.",
+      "Enhanced code maintainability & security, ensuring scalable, high-performing web applications.",
     ],
   },
   {
     company: "Evolution Hospitality Institute",
     badge: "EHI",
     logo: "evolution.jpeg",
-    role: "Information Technology Support Specialist",
-    period: "Jun 2024 – Dec 2024 · 7 mos",
+    role: "Back End Developer · Internship",
+    period: "Nov 2023 – Feb 2024 · 4 mos",
     sub: "Sydney, New South Wales, Australia · On-site",
     bullets: [
-      "Handled onboarding/offboarding and device deployments to improve efficiency.",
-      "Maintained hardware, printers, and networking; supported Windows and macOS.",
-      "Managed Office 365 / Active Directory accounts and permissions.",
-      "Delivered staff training on Moodle and Microsoft 365 tools.",
-      "Helped ship a full-stack learning portal using React.js, Node.js, and MongoDB.",
+      "Developed backend architecture for a cognitive skills quiz app using Node.js, Express.js & MongoDB.",
+      "Designed RESTful APIs and ensured seamless communication between frontend & backend.",
+      "Collaborated in a team of 4 interns, gathering client requirements & delivering the project on time.",
+    ],
+  },
+  {
+    company: "Freelance",
+    badge: "F",
+    logo: "",
+    role: "Full-stack Developer",
+    period: "Jan 2023 – Apr 2023 · 4 mos",
+    sub: "",
+    bullets: [
+      "Designed and built a booking platform with integrated payments, streamlining business operations.",
+      "Refactored and optimized legacy codebases, improving maintainability and reducing downtime.",
+      "Ensured code quality with Jest, managed collaboration efficiently with Git/GitHub.",
+      "Translated business requirements into scalable, functional technical solutions.",
+    ],
+  },
+  {
+    company: "Domino’s Pizza",
+    badge: "D",
+    logo: "dominos.png", // optional if you have it
+    role: "Shift Manager · Part-time",
+    period: "Aug 2019 – Mar 2021 · 1 yr 8 mos",
+    sub: "Sydney, New South Wales, Australia · On-site",
+    bullets: [
+      "Managed store operations and cross-functional teams, ensuring smooth daily workflows.",
+      "Introduced process improvements with clear SOPs and real-time tracking, boosting efficiency and reducing errors.",
+      "Used data dashboards to monitor orders, stock, and customer feedback, applying analysis to improve accuracy and service speed.",
+      "Built team leadership, problem-solving, and customer-facing communication skills applied later in software projects.",
     ],
   },
 ];
@@ -103,7 +169,7 @@ export default function Experience() {
                 key={i}
                 className="border-2 border-black bg-white shadow-[8px_8px_0_rgba(0,0,0,0.18)]"
               >
-                {/* Responsive header (stacks on mobile) */}
+                {/* Card header */}
                 <button
                   type="button"
                   onClick={() => toggle(i)}
@@ -142,7 +208,7 @@ export default function Experience() {
                       </div>
                     </div>
 
-                    {/* Right group (moves below on mobile) */}
+                    {/* Right group */}
                     <div className="flex items-center justify-between md:justify-end gap-2 md:gap-3">
                       <div className="font-mono text-xs sm:text-sm">
                         {job.period}
@@ -171,18 +237,31 @@ export default function Experience() {
                       className="overflow-hidden"
                     >
                       <div className="p-4 md:p-5">
+                        {/* Main bullets */}
                         <div className="pl-3 md:pl-4 border-l-4 border-red-500">
-                          <ul className="list-disc pl-5 mt-2 space-y-2">
+                          <ul className="list-none mt-2 space-y-2">
                             {job.bullets.map((b, idx) => (
-                              <li
-                                key={idx}
-                                className="leading-relaxed text-[15px]"
-                              >
-                                <Emph text={b} />
-                              </li>
+                              <Bullet key={idx}>{b}</Bullet>
                             ))}
                           </ul>
                         </div>
+
+                        {/* Optional Impact section */}
+                        {job.impactBullets?.length ? (
+                          <div className="mt-5">
+                            <div className="inline-flex items-center gap-2 rounded-md border-2 border-black bg-white px-3 py-1 shadow-[4px_4px_0_#000]">
+                              <CheckCircle2 className="h-4 w-4 text-green-700" />
+                              <span className="text-sm font-extrabold">
+                                {job.impactTitle || "Impact"}
+                              </span>
+                            </div>
+                            <ul className="list-none mt-3 space-y-2">
+                              {job.impactBullets.map((b, idx) => (
+                                <ImpactBullet key={idx}>{b}</ImpactBullet>
+                              ))}
+                            </ul>
+                          </div>
+                        ) : null}
                       </div>
                     </motion.div>
                   )}
