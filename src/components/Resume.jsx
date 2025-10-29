@@ -9,9 +9,8 @@ import {
   FaMapMarkerAlt,
 } from "react-icons/fa";
 
-const RESUME_URL = "/Manoj Adhikari_Resume.pdf";
-const DOWNLOAD_NAME = "Manoj Adhikari_Resume.pdf";
-
+const RESUME_URL = "/Manoj_Adhikari_Resume.pdf"; // No space, no encoding needed
+const DOWNLOAD_NAME = "Manoj_Adhikari_Resume.pdf";
 export default function Resume({ onClose }) {
   const resumeRef = useRef(null);
   const [downloading, setDownloading] = useState(false);

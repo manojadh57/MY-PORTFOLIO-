@@ -7,6 +7,7 @@ import Education from "./components/Education";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import CoolBackground from "./components/CoolBackground"; // New background
+import ChatbotWidget from "./components/ChatbotWidget";
 
 export default function App() {
   return (
@@ -22,6 +23,7 @@ export default function App() {
       <Education />
       <Contact />
       <Footer />
+      <ChatbotWidget />
     </main>
   );
 }
