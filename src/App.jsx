@@ -8,7 +8,7 @@ import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import CoolBackground from "./components/CoolBackground";
 import ChatbotWidget from "./components/ChatbotWidget";
-import IntroOverlay from "./components/IntroOverlay";
+import RobotScanIntro from "./components/RobotScanIntro"; // <— new intro
 
 export default function App() {
   return (
@@ -21,13 +21,17 @@ export default function App() {
         Skip to content
       </a>
 
-      {/* Background lives behind everything */}
+      {/* Background behind everything */}
       <CoolBackground />
 
-      {/* One-time intro animation overlay */}
-      <IntroOverlay name="MANOJ ADHIKARI" />
+      {/* Robot/HUD intro overlay (plays on each load) */}
+      <RobotScanIntro
+        name="MANOJ ADHIKARI"
+        subtitle="FULL-STACK DEVELOPER"
+        autoCloseMs={2800} // set to null to require tap on Skip
+      />
 
-      {/* Page content */}
+      {/* Main content */}
       <main id="main" className="relative z-10 min-h-screen font-mono text-fg">
         <Navbar />
         <About />
