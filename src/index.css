@@ -2,9 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ========= FONTS ========= */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;600&family=Space+Grotesk:wght@600;700&family=Bebas+Neue&display=swap');
-
 /* ========= THEME TOKENS (CSS Variables) ========= */
 /* Default: Swiss/Neutral */
 :root {

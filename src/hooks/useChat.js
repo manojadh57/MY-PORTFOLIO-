@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { FAQ } from "../data/faq";
 
-// Flexible scoring: question text, tags, answer text + word overlap
 function score(item, text) {
   const t = text.toLowerCase();
   const q = item.q.toLowerCase();
@@ -68,7 +67,6 @@ export default function useChat() {
 
   useEffect(() => {
     // optional persistence:
-    // localStorage.setItem("chat-history", JSON.stringify(messages));
   }, [messages]);
 
   return { messages, input, setInput, sendMessage, thinking };

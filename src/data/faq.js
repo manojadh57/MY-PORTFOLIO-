@@ -1,5 +1,4 @@
 export const FAQ = [
-  // ---- ABOUT / AVAILABILITY ----
   {
     q: "Who are you? About Manoj",
     a: "I’m Manoj Adhikari — a Full-Stack Developer who ships clean, reliable web apps with React/TypeScript on the front-end and Node/Express on the back-end. I focus on clean architecture, accessible UI, strong API design, and measurable performance.",
