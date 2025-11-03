@@ -1,9 +1,10 @@
-// Updated About.jsx
+// src/components/About.jsx
 import { useEffect, useMemo, useState } from "react";
 import { Mail, ArrowRight, FileText } from "lucide-react";
 import ArtisticPortrait from "./ArtisticPortrait";
 import HelloRotator from "./HelloRotator";
 import Resume from "./Resume";
+import Hobbies from "./Hobbies"; // keep filename exactly
 
 function Typewriter({
   phrases,
@@ -39,7 +40,7 @@ function Typewriter({
   }, [txt, dir, i, list, typingSpeed, pause]);
 
   return (
-    <span className={className} aria-live="polite" aria-atomic>
+    <span className={className} aria-live="polite" aria-atomic="true">
       {txt}
       <span className="inline-block w-[1ch] ml-0.5">|</span>
     </span>
@@ -48,20 +49,11 @@ function Typewriter({
 
 export default function About() {
   const [showResume, setShowResume] = useState(false);
+  const [showHobbies, setShowHobbies] = useState(false);
   const roles = ["Full-Stack Developer", "React • Node.js", "Simple, Reliable"];
 
-  // Square-edge card (same style as buttons but with no rounded corners)
   const card =
     "bg-white border-2 border-black shadow-[6px_6px_0_#000] rounded-none";
-
-  const openResume = (e) => {
-    e.preventDefault();
-    setShowResume(true);
-  };
-
-  const closeResume = () => {
-    setShowResume(false);
-  };
 
   return (
     <>
@@ -74,11 +66,10 @@ export default function About() {
           <aside className="md:col-span-5">
             <div className={`${card} p-4`}>
               <div className="overflow-hidden">
-                {/* removed rounded-xl */}
                 <ArtisticPortrait className="w-full h-auto" />
               </div>
 
-              {/* Availability pill (square) */}
+              {/* Availability pill */}
               <div className="mt-3 inline-flex items-center gap-2 rounded-none border-2 border-black bg-green-200 px-3 py-2 shadow-[4px_4px_0_#000]">
                 <span className="relative inline-block h-2.5 w-2.5">
                   <span className="absolute inset-0 rounded-full bg-green-600" />
@@ -90,22 +81,20 @@ export default function About() {
             </div>
           </aside>
 
-          {/* RIGHT: two matching square-edge cards */}
+          {/* RIGHT: intro + CTAs */}
           <main className="md:col-span-7 space-y-4">
-            {/* Card 1 — Name + subtitle */}
+            {/* Name + subtitle */}
             <div className={`${card} p-5 sm:p-6`}>
               <HelloRotator name="Manoj Adhikari" />
-
               <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight font-mono leading-none mt-2">
                 Manoj Adhikari
               </h2>
-
               <p className="mt-2 text-xl font-mono">
                 <Typewriter phrases={roles} />
               </p>
             </div>
 
-            {/* Card 2 — Details / blurb */}
+            {/* Bio + buttons */}
             <div className={`${card} p-5 sm:p-6`}>
               <p className="text-[1.05rem] leading-relaxed">
                 A dedicated{" "}
@@ -146,34 +135,50 @@ export default function About() {
                 .
               </p>
 
-              {/* CTAs (already square) */}
-              <div className="mt-6 flex flex-wrap items-center gap-3">
+              {/* CTA row (uniform buttons) */}
+              <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                 <button
-                  onClick={openResume}
-                  className="inline-flex items-center gap-2 border-2 border-black bg-yellow-300 px-4 py-2 font-semibold shadow-[6px_6px_0_#000] hover:translate-x-0.5 hover:-translate-y-0.5 transition-transform"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setShowResume(true);
+                  }}
+                  className="inline-flex items-center justify-center gap-2 border-2 border-black bg-yellow-300 px-4 py-2 font-semibold shadow-[6px_6px_0_#000] transition hover:-translate-y-0.5"
+                  aria-haspopup="dialog"
                 >
                   <FileText className="h-4 w-4" /> Resume
                 </button>
+
                 <a
                   href="#projects"
-                  className="inline-flex items-center gap-2 border-2 border-black bg-white px-4 py-2 font-semibold shadow-[6px_6px_0_#000] hover:translate-x-0.5 hover:-translate-y-0.5 transition-transform"
+                  className="inline-flex items-center justify-center gap-2 border-2 border-black bg-white px-4 py-2 font-semibold shadow-[6px_6px_0_#000] transition hover:-translate-y-0.5"
                 >
                   <ArrowRight className="h-4 w-4" /> View Projects
                 </a>
+
                 <a
                   href="#contact"
-                  className="inline-flex items-center gap-2 border-2 border-black bg-white px-4 py-2 font-semibold shadow-[6px_6px_0_#000] hover:translate-x-0.5 hover:-translate-y-0.5 transition-transform"
+                  className="inline-flex items-center justify-center gap-2 border-2 border-black bg-white px-4 py-2 font-semibold shadow-[6px_6px_0_#000] transition hover:-translate-y-0.5"
                 >
                   <Mail className="h-4 w-4" /> Email
                 </a>
+
+                {/* Opens Hobbies modal (no emoji) */}
+                <button
+                  onClick={() => setShowHobbies(true)}
+                  className="inline-flex items-center justify-center gap-2 border-2 border-black bg-white px-4 py-2 font-semibold shadow-[6px_6px_0_#000] transition hover:-translate-y-0.5"
+                  aria-haspopup="dialog"
+                >
+                  Hobbies
+                </button>
               </div>
             </div>
           </main>
         </div>
       </section>
 
-      {/* Resume Modal */}
-      {showResume && <Resume onClose={closeResume} />}
+      {/* Popups */}
+      {showResume && <Resume onClose={() => setShowResume(false)} />}
+      {showHobbies && <Hobbies onClose={() => setShowHobbies(false)} />}
     </>
   );
 }

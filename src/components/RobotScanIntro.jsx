@@ -2,16 +2,11 @@ import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import usePrefersReducedMotion from "../hooks/usePrefersReducedMotion";
 
-/**
- * Robot/HUD intro overlay (mobile friendly).
- * - Shows on every page load.
- * - Auto-closes after 2.8s (configurable) or on Skip tap.
- * - Tailwind + your yellow accent, harsh borders (brutalist).
- */
+
 export default function RobotScanIntro({
   name = "MANOJ ADHIKARI",
   subtitle = "FULL-STACK DEVELOPER",
-  autoCloseMs = 2800, // set null to disable auto close
+  autoCloseMs = 2800, 
 }) {
   const [show, setShow] = useState(true);
   const reduce = usePrefersReducedMotion();
